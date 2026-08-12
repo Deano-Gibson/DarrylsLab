@@ -15,5 +15,6 @@ Then visit `http://localhost:8080`.
 ## Notes
 
 - The enquiry form is a front-end demo and does not send data.
+- `dashboard.html` is an interactive business-dashboard demo for booking, client, note, and email management. Changes persist in local browser storage.
 - Motion respects the system `prefers-reduced-motion` setting.
 - The hero uses the supplied Darryl gym photograph.
