@@ -3,18 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Darryls Laboratory offers personal coaching in the UK with tailored programming, weekly accountability, and direct support."
-    />
-    <meta name="theme-color" content="#171714" />
-    <title>Darryls Laboratory — Personal Coaching</title>
+    <meta name="description" content="DL Coaching provides personalised 1:1 online coaching to help you build muscle, lose body fat, and follow a plan that fits your life." />
+    <meta name="theme-color" content="#070a0f" />
+    <title>DL Coaching | 1:1 Online Coaching</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
   </head>
@@ -22,198 +17,115 @@
     <a class="skip-link" href="#main">Skip to main content</a>
 
     <header class="site-header" data-header>
-      <a class="brand" href="#top" aria-label="Darryls Laboratory home">
-        <span class="brand-mark" aria-hidden="true">D</span>
-        <span>Darryls Laboratory</span>
+      <a class="brand" href="#top" aria-label="DL Coaching home">
+        <span class="brand-symbol" aria-hidden="true"><b>D</b><b>L</b></span>
+        <span class="brand-name"><strong>Coaching</strong><small>Join the lab</small></span>
       </a>
-
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span class="sr-only">Toggle navigation</span>
-        <span></span><span></span>
+        <span class="sr-only">Toggle navigation</span><span></span><span></span>
       </button>
-
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="#coaching">Coaching</a>
-        <a href="#about">About</a>
-        <a href="#results">Results</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a class="nav-cta" href="#contact">Book a coaching call <span aria-hidden="true">↗</span></a>
+        <a href="#for-you">Is it for you?</a><a href="#includes">What’s included</a><a href="#about">About</a><a href="#process">The process</a>
+        <a class="nav-cta" href="#apply">Apply for coaching <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
 
     <main id="main">
       <section class="hero" id="top" aria-labelledby="hero-title">
-        <img
-          class="hero-image"
-          src="assets/darryl-hero.jpg"
-          alt="Coach Darryl training in the gym"
-          fetchpriority="high"
-        />
-        <div class="hero-shade" aria-hidden="true"></div>
+        <img class="hero-image" src="assets/darryl-hero.jpg" alt="Coach Darryl in the gym" fetchpriority="high" />
+        <div class="hero-shade" aria-hidden="true"></div><div class="hero-grid" aria-hidden="true"></div>
         <div class="hero-content">
-          <p class="eyebrow reveal">Personal coaching · UK</p>
-          <h1 id="hero-title" class="reveal">Your goals.<br />A clear plan.<br /><em>A coach who cares.</em></h1>
-          <p class="hero-copy reveal">
-            Tailored training, honest feedback, and real accountability. You’ll always know what to do next — and you won’t have to figure it out alone.
-          </p>
+          <p class="eyebrow reveal"><span>DL Coaching</span> 1:1 online coaching</p>
+          <h1 id="hero-title" class="reveal">Build the body.<br /><em>Build the confidence.</em></h1>
+          <p class="hero-copy reveal">1:1 online coaching for people who want to build muscle, lose body fat, and finally have a plan they can stick to.</p>
           <div class="hero-actions reveal">
-            <a class="button button-primary" href="#contact">Book a coaching call <span aria-hidden="true">↗</span></a>
-            <a class="text-link" href="#coaching">See how I coach <span aria-hidden="true">↓</span></a>
+            <a class="button button-primary" href="#apply">Apply for coaching <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="#for-you">See if it’s for you <span aria-hidden="true">↓</span></a>
           </div>
         </div>
-        <div class="hero-proof" aria-label="Coaching highlights">
-          <span><strong>Weekly</strong> check-ins</span>
-          <span><strong>100%</strong> tailored</span>
-          <span><strong>Direct</strong> coach support</span>
-        </div>
-        <a class="scroll-cue" href="#coaching" aria-label="Scroll to coaching options"><span></span></a>
+        <div class="hero-stamp reveal" aria-label="Personalised coaching, weekly check-ins, direct support"><span>One plan</span><strong>Built around you</strong><span>Real accountability</span></div>
+        <p class="hero-index" aria-hidden="true">DL / 01</p>
       </section>
 
-      <section class="manifesto section-pad" aria-label="Training philosophy">
-        <div class="section-number" aria-hidden="true">01</div>
-        <div class="manifesto-copy reveal">
-          <p class="eyebrow dark">The coaching method</p>
-          <h2>A coach in your corner.<br />A plan in <em>your hands.</em></h2>
-          <p>
-            Coaching is more than a workout sheet. It’s the clarity, feedback, and support that turn good intentions into consistent progress.
-          </p>
+      <section class="fit section-pad" id="for-you" aria-labelledby="fit-title">
+        <div class="section-intro reveal">
+          <p class="eyebrow dark"><span>01</span> Is the coaching for you?</p>
+          <h2 id="fit-title">You’re ready for a plan<br />that <em>actually sticks.</em></h2>
+          <p>You don’t need more random workouts or another short-lived diet. You need structure, support, and a plan that works in real life.</p>
         </div>
-        <div class="principles reveal">
-          <article>
-            <span>01</span>
-            <div><h3>Assess &amp; understand</h3><p>We start with your goals, experience, lifestyle, and what has held you back.</p></div>
-          </article>
-          <article>
-            <span>02</span>
-            <div><h3>Programme with purpose</h3><p>Every session has a reason, with training and nutrition built around your week.</p></div>
-          </article>
-          <article>
-            <span>03</span>
-            <div><h3>Coach, review &amp; adapt</h3><p>Regular check-ins keep you accountable and your programme moving with you.</p></div>
-          </article>
+        <div class="fit-list reveal">
+          <article><span>01</span><p>You’ve been training but aren’t seeing the results you want.</p></article>
+          <article><span>02</span><p>You don’t know exactly what you should be eating.</p></article>
+          <article><span>03</span><p>You struggle to stay consistent when life gets busy.</p></article>
+          <article><span>04</span><p>You want a structured training programme.</p></article>
+          <article><span>05</span><p>You want someone keeping you accountable.</p></article>
+          <article><span>06</span><p>You’re ready to take your training seriously.</p></article>
         </div>
       </section>
 
-      <section class="coaching section-pad" id="coaching" aria-labelledby="coaching-title">
+      <section class="includes section-pad" id="includes" aria-labelledby="includes-title">
         <div class="section-heading reveal">
-          <div>
-            <p class="eyebrow">Choose your coaching</p>
-            <h2 id="coaching-title">The support you need.<br /><em>Your way.</em></h2>
-          </div>
-          <p>Choose hands-on sessions, flexible online support, or a focused eight-week reset. Every option starts with you.</p>
+          <div><p class="eyebrow"><span>02</span> What coaching includes</p><h2 id="includes-title">Everything you need.<br /><em>Nothing you don’t.</em></h2></div>
+          <p>Personalised guidance, honest feedback, and clear next steps—so you always know what to focus on.</p>
         </div>
-
-        <div class="service-grid">
-          <article class="service-card reveal">
-            <div class="service-top"><span>01</span><span class="service-icon" aria-hidden="true">↗</span></div>
-            <div>
-              <p class="service-label">High-touch coaching</p>
-              <h3>Private 1:1 Coaching</h3>
-              <p>Work directly with me in every session, with expert technique coaching and a plan that progresses with you.</p>
-              <ul>
-                <li>Personal movement assessment</li>
-                <li>Hands-on technique coaching</li>
-                <li>Regular progress reviews</li>
-              </ul>
-            </div>
-            <a href="#contact" aria-label="Enquire about one-to-one personal training">Enquire now <span aria-hidden="true">→</span></a>
-          </article>
-
-          <article class="service-card service-card-accent reveal">
-            <div class="service-top"><span>02</span><span class="service-icon" aria-hidden="true">↗</span></div>
-            <div>
-              <p class="service-label">Coach in your pocket</p>
-              <h3>Online Coaching</h3>
-              <p>Your complete programme, backed by direct access to me, detailed feedback, and weekly adjustments.</p>
-              <ul>
-                <li>Training built around your gym</li>
-                <li>Nutrition &amp; habit guidance</li>
-                <li>Weekly coaching check-ins</li>
-              </ul>
-            </div>
-            <a href="#contact" aria-label="Enquire about online coaching">Enquire now <span aria-hidden="true">→</span></a>
-          </article>
-
-          <article class="service-card reveal">
-            <div class="service-top"><span>03</span><span class="service-icon" aria-hidden="true">↗</span></div>
-            <div>
-              <p class="service-label">Focused coaching block</p>
-              <h3>8-Week Coaching Reset</h3>
-              <p>A structured coaching block for beginners or anyone ready to rebuild momentum with close support.</p>
-              <ul>
-                <li>Starting-point assessment</li>
-                <li>Eight-week coaching roadmap</li>
-                <li>Weekly accountability</li>
-              </ul>
-            </div>
-            <a href="#contact" aria-label="Enquire about the eight-week foundation">Enquire now <span aria-hidden="true">→</span></a>
-          </article>
+        <div class="include-grid">
+          <article class="include-card include-card-featured reveal"><div class="card-number">01</div><div class="card-icon" aria-hidden="true">P</div><h3>Personalised training</h3><p>A programme built around your goals, experience, schedule, equipment, and availability.</p></article>
+          <article class="include-card reveal"><div class="card-number">02</div><div class="card-icon" aria-hidden="true">N</div><h3>Nutrition coaching</h3><p>Practical nutrition guidance designed around your lifestyle—not a restrictive meal plan.</p></article>
+          <article class="include-card reveal"><div class="card-number">03</div><div class="card-icon" aria-hidden="true">↗</div><h3>Progress tracking</h3><p>We monitor weight, measurements, photos, habits, and training performance to keep progress visible.</p></article>
+          <article class="include-card reveal"><div class="card-number">04</div><div class="card-icon" aria-hidden="true">D</div><h3>Direct support</h3><p>Message me when you need guidance, feedback, or an adjustment. You’re never left guessing.</p></article>
+          <article class="include-card reveal"><div class="card-number">05</div><div class="card-icon" aria-hidden="true">W</div><h3>Weekly check-ins</h3><p>We review your week, identify what’s working, and make changes where they’re needed.</p></article>
         </div>
       </section>
 
       <section class="about section-pad" id="about" aria-labelledby="about-title">
         <div class="about-visual reveal">
-          <div class="origin-card">
-            <span>SA</span>
-            <p>Born in South Africa<br />Coaching in the UK</p>
-          </div>
-          <div class="line-art" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <img src="assets/darryl-hero.jpg" alt="Darryl, founder and coach at DL Coaching" loading="lazy" />
+          <div class="about-monogram" aria-hidden="true"><span>D</span><span>L</span></div><p>Founder / Coach<br />South Africa → UK</p>
         </div>
         <div class="about-copy reveal">
-          <p class="eyebrow dark">Your coach</p>
-          <h2 id="about-title">Hey, I’m<br /><em>Darryl.</em></h2>
-          <p class="lead">I’m here to take the guesswork out of training — and give you the structure and support to follow through.</p>
-          <p>Growing up in South Africa shaped my belief in resilience and community. Now coaching in the UK, I help everyday people train with purpose, build confidence, and stay consistent — in the gym and outside it.</p>
-          <blockquote>“You don’t need to be perfect. You just need a plan you’ll actually follow.”</blockquote>
-          <a class="text-link dark-link" href="#contact">Let’s work together <span aria-hidden="true">→</span></a>
+          <p class="eyebrow dark"><span>03</span> About me</p><h2 id="about-title">I’m Darryl.<br /><em>Your coach.</em></h2>
+          <p class="lead">I’m here to take the guesswork out of training and give you the structure and support to follow through.</p>
+          <p>Growing up in South Africa shaped my belief in resilience and community. Now coaching in the UK, I help everyday people train with purpose, build confidence, and stay consistent—in the gym and outside it.</p>
+          <blockquote>“You don’t need to be perfect. You need a plan you’ll actually follow.”</blockquote>
+          <a class="text-link dark-link" href="#apply">Let’s build your plan <span aria-hidden="true">→</span></a>
         </div>
       </section>
 
-      <section class="results section-pad" id="results" aria-labelledby="results-title">
-        <p class="eyebrow reveal">What good coaching changes</p>
-        <h2 id="results-title" class="reveal">Clarity. Confidence.<br />Consistency.</h2>
-        <div class="result-grid">
-          <article class="result-stat reveal"><strong data-count="3">3</strong><span>ways to be coached</span><p>Choose the support level that fits your life.</p></article>
-          <article class="testimonial reveal">
-            <div class="quote-mark" aria-hidden="true">“</div>
-            <blockquote>Darryl made training feel straightforward. I’m stronger, more confident, and for the first time I actually enjoy showing up.</blockquote>
-            <div class="client"><span>JM</span><p><strong>Jamie M.</strong><br />Online coaching client</p></div>
-          </article>
-          <article class="result-stat reveal"><strong data-count="1">1</strong><span>coach in your corner</span><p>Clear feedback whenever you need direction.</p></article>
+      <section class="process section-pad" id="process" aria-labelledby="process-title">
+        <div class="section-heading reveal">
+          <div><p class="eyebrow"><span>04</span> What the process is like</p><h2 id="process-title">Simple steps.<br /><em>Serious progress.</em></h2></div>
+          <p>From your first message to every weekly review, you’ll know what happens next.</p>
         </div>
+        <ol class="process-list">
+          <li class="reveal"><span>01</span><div><h3>Apply</h3><p>Tell me about your goals, current situation, and what you’re struggling with.</p></div></li>
+          <li class="reveal"><span>02</span><div><h3>Consultation</h3><p>We’ll discuss your goals and determine whether we’re a good fit.</p></div></li>
+          <li class="reveal"><span>03</span><div><h3>Get your plan</h3><p>You’ll receive your personalised training and nutrition strategy.</p></div></li>
+          <li class="reveal"><span>04</span><div><h3>Execute</h3><p>Train, follow your nutrition targets, and track progress through the coaching app.</p></div></li>
+          <li class="reveal"><span>05</span><div><h3>Check in</h3><p>We review progress every week and adjust your plan as needed.</p></div></li>
+        </ol>
       </section>
 
-      <section class="contact section-pad" id="contact" aria-labelledby="contact-title">
+      <section class="contact section-pad" id="apply" aria-labelledby="contact-title">
         <div class="contact-intro reveal">
-          <p class="eyebrow dark">Start with a conversation</p>
-          <h2 id="contact-title">Let’s build your<br /><em>coaching plan.</em></h2>
-          <p>Tell me where you’re at and what you want to achieve. We’ll use a free, no-pressure call to find the right coaching path for you.</p>
-          <div class="availability"><span aria-hidden="true"></span> Now taking on new clients</div>
+          <p class="eyebrow dark"><span>05</span> Start here</p><h2 id="contact-title">Ready to join<br /><em>the lab?</em></h2>
+          <p>Tell me where you’re at and what you want to achieve. We’ll start with a no-pressure consultation to see if the coaching is right for you.</p>
+          <div class="availability"><span aria-hidden="true"></span> Applications now open</div>
         </div>
         <form class="contact-form reveal" novalidate>
-          <div class="field-row">
-            <label>First name<input type="text" name="firstName" autocomplete="given-name" required placeholder="Your name" /></label>
-            <label>Email address<input type="email" name="email" autocomplete="email" required placeholder="you@email.com" /></label>
-          </div>
-          <label>
-            Which coaching option interests you?
-            <select name="goal" required>
-              <option value="">Choose a coaching option</option>
-              <option>Private 1:1 coaching</option><option>Online coaching</option><option>8-week coaching reset</option><option>Not sure yet</option>
-            </select>
-          </label>
-          <label>Anything else I should know?<textarea name="message" rows="3" placeholder="A little about where you're at..."></textarea></label>
-          <button class="button button-dark" type="submit">Book my coaching call <span aria-hidden="true">↗</span></button>
-          <p class="form-status" role="status" aria-live="polite"></p>
+          <div class="field-row"><label>First name<input type="text" name="firstName" autocomplete="given-name" required placeholder="Your name" /></label><label>Email address<input type="email" name="email" autocomplete="email" required placeholder="you@email.com" /></label></div>
+          <label>What is your main goal?<select name="goal" required><option value="">Choose your main goal</option><option>Build muscle</option><option>Lose body fat</option><option>Build muscle and lose body fat</option><option>Build consistency</option></select></label>
+          <label>Tell me a little about where you’re at<textarea name="message" rows="3" placeholder="Training experience, what you’re struggling with, and what you want to achieve..."></textarea></label>
+          <button class="button button-dark" type="submit">Apply for 1:1 coaching <span aria-hidden="true">↗</span></button>
+          <p class="form-note">No pressure. No copy-paste sales pitch. Just an honest conversation.</p><p class="form-status" role="status" aria-live="polite"></p>
         </form>
       </section>
     </main>
 
     <footer class="site-footer">
-      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true">D</span><span>Darryls Laboratory</span></a>
-      <p>Coaching built for real life.</p>
-      <div class="footer-links"><a href="#coaching">Coaching</a><a href="#about">About</a><a href="#contact">Contact</a><a href="dashboard.html">Dashboard demo</a><a href="#top">Back to top ↑</a></div>
-      <small>© <span data-year></span> Darryls Laboratory. Demo website.</small>
+      <a class="brand footer-brand" href="#top" aria-label="DL Coaching home"><span class="brand-symbol" aria-hidden="true"><b>D</b><b>L</b></span><span class="brand-name"><strong>Coaching</strong><small>Join the lab</small></span></a>
+      <p>Build the body.<br /><span>Build the confidence.</span></p>
+      <div class="footer-links"><a href="#for-you">Is it for you?</a><a href="#includes">What’s included</a><a href="#about">About</a><a href="#process">Process</a><a href="#top">Back to top ↑</a></div>
+      <small>© <span data-year></span> DL Coaching. All rights reserved.</small>
     </footer>
   </body>
 </html>

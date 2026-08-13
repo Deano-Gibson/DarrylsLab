@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DL Coaching">
+  <rect width="64" height="64" rx="10" fill="#070a0f"/>
+  <path d="M10 13h19c12 0 18 7 15 19S32 51 20 51H2l8-38Zm9 10-5 18h7c6 0 10-3 12-9s-1-9-7-9h-7Z" fill="#078cf2"/>
+  <path d="M38 13h12l-8 28h18l-8 10H27l11-38Z" fill="#f8fafc"/>
+</svg>
