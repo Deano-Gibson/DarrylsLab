@@ -42,7 +42,7 @@ if (reduceMotion) {
   });
 }
 
-form.addEventListener('submit', (event) => {
+form?.addEventListener('submit', (event) => {
   event.preventDefault();
   const requiredFields = [...form.querySelectorAll('[required]')];
   const invalidField = requiredFields.find((field) => !field.checkValidity());

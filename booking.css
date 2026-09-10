@@ -27,8 +27,17 @@ button { color: inherit; }
 .skip-link:focus { transform: none; }
 
 .booking-header { min-height: 72px; display: flex; align-items: center; justify-content: space-between; width: min(1184px, calc(100% - 40px)); margin: auto; }
-.booking-brand { display: inline-flex; align-items: center; gap: 13px; color: var(--text); font-size: 12px; font-weight: 800; letter-spacing: .19em; text-decoration: none; text-transform: uppercase; }
-.booking-mark { width: 38px; height: 38px; display: grid; place-items: center; color: #fff; background: var(--blue); border-radius: 11px; font: 700 17px/1 var(--display); letter-spacing: -.02em; }
+.booking-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; text-transform: uppercase; }
+.booking-symbol { display: flex; align-items: center; height: 38px; font: italic 900 45px/.72 var(--display); letter-spacing: -.16em; }
+.booking-symbol b:first-child { color: var(--blue); }
+.booking-symbol b:last-child { color: #fff; transform: skew(-9deg); }
+.booking-name { display: grid; gap: 2px; padding-left: 10px; border-left: 1px solid rgba(255,255,255,.3); font-family: var(--display); line-height: 1; }
+.booking-name strong { font-size: 12px; letter-spacing: .13em; }
+.booking-name small { color: rgba(255,255,255,.55); font-size: 7px; font-weight: 700; letter-spacing: .2em; }
+.booking-nav { display: flex; align-items: center; gap: 26px; }
+.booking-nav a { position: relative; min-height: 44px; display: inline-flex; align-items: center; color: var(--muted); font-size: 9px; font-weight: 800; letter-spacing: .1em; text-decoration: none; text-transform: uppercase; }
+.booking-nav a:hover, .booking-nav a.active { color: var(--text); }
+.booking-nav a.active::after { content: ""; position: absolute; right: 0; bottom: 5px; left: 0; height: 2px; background: var(--blue); }
 .owner-link { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 0 4px; color: #b7cee0; text-decoration: none; }
 .owner-link:hover { color: var(--text); }
 .owner-dot { width: 7px; height: 7px; background: var(--success); border-radius: 50%; box-shadow: 0 0 0 5px rgba(100, 211, 161, .09); }
@@ -177,9 +186,10 @@ form { display: grid; }
 @media (max-width: 600px) {
   .booking-header, .booking-shell { width: min(100% - 28px, 680px); }
   .booking-header { min-height: 64px; }
-  .booking-brand { font-size: 10px; }
-  .booking-mark { width: 34px; height: 34px; }
-  .owner-link { font-size: 11px; }
+  .booking-symbol { height: 34px; font-size: 39px; }
+  .booking-name { display: none; }
+  .booking-nav { gap: 13px; }
+  .booking-nav a { font-size: 7px; }
   .booking-shell { padding: 26px 0 40px; gap: 32px; }
   h1 { font-size: clamp(60px, 19vw, 78px); }
   .intro-copy { margin-bottom: 27px; line-height: 1.7; }

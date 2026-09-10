@@ -168,7 +168,7 @@ function calendarDates(booking) {
 function googleCalendarUrl(booking) {
   const params = new URLSearchParams({
     action: 'TEMPLATE',
-    text: "Personal training with Darryl's Lab",
+    text: 'Personal training with DL Coaching',
     dates: calendarDates(booking),
     ctz: londonTimeZone,
     location: 'PT studio',
@@ -196,7 +196,7 @@ function downloadCalendarFile() {
   const content = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Darryls Lab//Booking MVP//EN',
     'BEGIN:VEVENT', `UID:${booking.id}@darrylslab.com`, `DTSTART:${start}`, `DTEND:${end}`,
-    "SUMMARY:Personal training with Darryl's Lab", 'LOCATION:PT studio',
+    'SUMMARY:Personal training with DL Coaching', 'LOCATION:PT studio',
     'DESCRIPTION:Your focused 60-minute personal training session with Darryl.',
     'END:VEVENT', 'END:VCALENDAR'
   ].join('\r\n');

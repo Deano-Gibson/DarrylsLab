@@ -1,0 +1,17 @@
+.online-page { background: radial-gradient(circle at 18% 78%, rgba(7,140,242,.13), transparent 28rem), radial-gradient(circle at 84% 18%, rgba(31,103,151,.16), transparent 28rem), var(--ink); }
+.online-intro h1 { font-weight: 800; }
+.online-card { min-height: 760px; }
+.account-note { display: grid; grid-template-columns: 30px 1fr; gap: 10px; padding: 12px; color: var(--muted); background: rgba(75,168,232,.06); border: 1px solid rgba(75,168,232,.15); border-radius: 10px; }
+.account-note > span { width: 28px; height: 28px; display: grid; place-items: center; color: var(--blue-bright); background: rgba(75,168,232,.1); border-radius: 8px; }
+.account-note p { display: grid; margin: 0; font-size: 8px; }
+.account-note strong { color: var(--text); font-size: 9px; }
+.online-submit.loading { color: transparent; position: relative; pointer-events: none; }
+.profile-ticket { width: 100%; display: flex; align-items: center; gap: 13px; margin-bottom: 18px; padding: 14px; text-align: left; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; }
+.profile-avatar { width: 45px; height: 45px; display: grid; place-items: center; flex: 0 0 45px; color: var(--ink); background: var(--blue-bright); border-radius: 50%; font: 800 17px/1 var(--display); }
+.profile-ticket div { display: grid; }
+.profile-ticket small { color: var(--blue-bright); font-size: 8px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.profile-ticket strong { margin: 2px 0; font-size: 12px; }
+.profile-ticket span:last-child { color: var(--muted); font-size: 8px; }
+.online-success { min-height: 700px; }
+
+@media (max-width: 980px) { .online-card { min-height: 0; } }

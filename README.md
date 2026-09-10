@@ -1,4 +1,4 @@
-# Darryls Laboratory
+# DL Coaching
 
 A polished, responsive one-page coaching site for a UK-based personal trainer. Built with semantic HTML, modern CSS, and a small amount of vanilla JavaScript.
 
@@ -15,6 +15,7 @@ Then visit `http://localhost:8080`.
 ## Notes
 
 - The enquiry form is a front-end demo and does not send data.
+- `online.html` provides the online-coaching intake and passwordless profile-creation MVP, writing new leads into the same owner workspace.
 - `booking.html` is an interactive customer-booking MVP. It prevents locally booked slots from being selected twice, creates an add-to-Google-Calendar link and `.ics` download, and writes the demo appointment into the owner dashboard's browser storage.
 - `dashboard.html` is an interactive business-dashboard demo for booking, client, note, and email management. Changes persist in local browser storage.
 - Motion respects the system `prefers-reduced-motion` setting.
