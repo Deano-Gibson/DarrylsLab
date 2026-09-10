@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Darryls Laboratory business dashboard demo."><meta name="theme-color" content="#171714">
-  <title>Business Dashboard — Darryls Laboratory</title>
+  <meta name="description" content="DL Coaching client and business dashboard demo."><meta name="theme-color" content="#070a0f">
+  <title>Coaching Dashboard | DL Coaching</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dashboard.css"><script src="dashboard.js" defer></script>
@@ -25,8 +26,8 @@
 </svg>
 <div class="shell">
   <aside class="sidebar" data-sidebar>
-    <div class="sidebar-head"><a class="brand" href="index.html"><span class="brand-mark">D</span><span>Darryls<br>Laboratory</span></a><button class="icon-btn sidebar-close" data-menu-close aria-label="Close navigation"><svg><use href="#i-close"/></svg></button></div>
-    <div class="workspace-label"><span>Business workspace</span><strong>Demo</strong></div>
+    <div class="sidebar-head"><a class="brand" href="index.html" aria-label="DL Coaching home"><span class="brand-symbol" aria-hidden="true"><b>D</b><b>L</b></span><span class="brand-name"><strong>Coaching</strong><small>Join the lab</small></span></a><button class="icon-btn sidebar-close" data-menu-close aria-label="Close navigation"><svg><use href="#i-close"/></svg></button></div>
+    <div class="workspace-label"><span>Coaching workspace</span><strong>Demo</strong></div>
     <nav class="nav" aria-label="Dashboard navigation">
       <button class="nav-item active" data-view-target="overview"><svg><use href="#i-grid"/></svg><span>Overview</span></button>
       <button class="nav-item" data-view-target="calendar"><svg><use href="#i-calendar"/></svg><span>Calendar</span><span class="nav-count" data-booking-count></span></button>
@@ -36,7 +37,7 @@
     <div class="sidebar-bottom">
       <button class="nav-item" data-view-target="settings"><svg><use href="#i-settings"/></svg><span>Settings</span></button>
       <a class="website-link" href="index.html">View public website <svg><use href="#i-external"/></svg></a>
-      <div class="coach"><span class="avatar acid">DG</span><span><strong>Darryl</strong><small>Portsmouth · GMT</small></span><i></i></div>
+      <div class="coach"><span class="avatar acid">DL</span><span><strong>Darryl</strong><small>DL Coaching · GMT</small></span><i></i></div>
     </div>
   </aside>
   <div class="scrim" data-menu-close></div>
@@ -90,7 +91,7 @@
 </form></dialog>
 <dialog class="modal" data-compose-dialog><form method="dialog" class="modal-card" data-compose-form>
   <header class="modal-head"><div><p class="eyebrow muted">Client email</p><h2>Compose follow-up</h2></div><button class="icon-btn" value="cancel" formnovalidate aria-label="Close"><svg><use href="#i-close"/></svg></button></header>
-  <div class="form-grid one"><label class="field">Recipient<select name="clientId" required data-compose-client></select></label><label class="field">Subject<input name="subject" required value="Checking in from Darryls Laboratory"></label><label class="field">Message<textarea name="body" rows="7" required>Hi there,
+  <div class="form-grid one"><label class="field">Recipient<select name="clientId" required data-compose-client></select></label><label class="field">Subject<input name="subject" required value="Checking in from DL Coaching"></label><label class="field">Message<textarea name="body" rows="7" required>Hi there,
 
 Just checking in to see how things are going. Reply to this email if there’s anything you’d like help with before our next session.
 

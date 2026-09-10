@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Book a focused one-hour personal training session with Darryl." />
+    <meta name="theme-color" content="#081522" />
+    <title>Book a session | Darryl's Lab</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="booking.css" />
+    <script src="booking.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#booking">Skip to booking</a>
+
+    <header class="booking-header">
+      <a class="booking-brand" href="index.html" aria-label="Darryl's Lab home">
+        <span class="booking-mark" aria-hidden="true">DL</span>
+        <span>Darryl’s Lab</span>
+      </a>
+      <a class="owner-link" href="dashboard.html"><span class="owner-dot" aria-hidden="true"></span>Owner view</a>
+    </header>
+
+    <main class="booking-shell">
+      <section class="booking-intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow"><span></span>In-person coaching</p>
+          <h1 id="page-title">Train with<br /><em>intention.</em></h1>
+          <p class="intro-copy">Reserve a focused, one-hour personal training session. Pick a time that works and your confirmation and calendar invitation will arrive straight away.</p>
+        </div>
+
+        <dl class="session-facts">
+          <div>
+            <dt><span class="fact-icon" aria-hidden="true">◷</span>60 minutes</dt>
+            <dd>Focused 1:1 session</dd>
+          </div>
+          <div>
+            <dt><span class="fact-icon pin" aria-hidden="true"></span>In person</dt>
+            <dd>At your PT studio</dd>
+          </div>
+          <div>
+            <dt><span class="fact-icon" aria-hidden="true">✓</span>Simple booking</dt>
+            <dd>No account required</dd>
+          </div>
+        </dl>
+
+        <aside class="demo-note" aria-label="Prototype information">
+          <strong>Interactive MVP</strong>
+          <span>Bookings made here appear in the owner dashboard on this device.</span>
+        </aside>
+      </section>
+
+      <section class="booking-card" id="booking" aria-label="In-person personal training booking">
+        <div class="intake-view" data-intake-view>
+          <header class="card-heading intake-heading">
+            <div>
+              <p class="section-label">In-person personal training</p>
+              <h2 id="intake-title">A few quick questions</h2>
+              <p class="heading-copy">This should only take 1–2 minutes. Your answers help Darryl prepare for your session.</p>
+            </div>
+            <span class="duration-pill">Step 1 of 2</span>
+          </header>
+
+          <form class="intake-form" data-intake-form novalidate>
+            <fieldset class="intake-section">
+              <legend>Your details</legend>
+              <div class="field-grid">
+                <label>
+                  <span>Full name <b>Required</b></span>
+                  <input name="name" autocomplete="name" placeholder="e.g. Jamie Smith" required />
+                </label>
+                <label>
+                  <span>Email address <b>Required</b></span>
+                  <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+                </label>
+              </div>
+              <label>
+                <span>Phone number <b>Required</b></span>
+                <input name="phone" type="tel" autocomplete="tel" placeholder="e.g. 07700 900123" required />
+              </label>
+            </fieldset>
+
+            <fieldset class="intake-section">
+              <legend>Your goals</legend>
+              <div class="question-block">
+                <p>What is your main goal? <b>Required</b></p>
+                <div class="choice-grid goal-grid">
+                  <label><input type="radio" name="goal" value="Lose body fat" required /><span>Lose body fat</span></label>
+                  <label><input type="radio" name="goal" value="Build muscle" /><span>Build muscle</span></label>
+                  <label><input type="radio" name="goal" value="Get stronger" /><span>Get stronger</span></label>
+                  <label><input type="radio" name="goal" value="Improve fitness" /><span>Improve fitness</span></label>
+                  <label><input type="radio" name="goal" value="Improve confidence" /><span>Improve confidence</span></label>
+                  <label><input type="radio" name="goal" value="Get back into training" /><span>Get back into training</span></label>
+                  <label><input type="radio" name="goal" value="General health &amp; wellbeing" /><span>General health &amp; wellbeing</span></label>
+                  <label><input type="radio" name="goal" value="Other" /><span>Other</span></label>
+                </div>
+              </div>
+              <label>
+                <span>What would you like to achieve from personal training? <b>Required</b></span>
+                <input name="outcome" placeholder="Tell Darryl what success would look like" required />
+              </label>
+            </fieldset>
+
+            <fieldset class="intake-section">
+              <legend>Your training experience</legend>
+              <div class="question-block">
+                <p>How would you describe your current training experience? <b>Required</b></p>
+                <div class="choice-grid">
+                  <label><input type="radio" name="experience" value="Complete beginner" required /><span>Complete beginner</span></label>
+                  <label><input type="radio" name="experience" value="Beginner" /><span>Beginner</span></label>
+                  <label><input type="radio" name="experience" value="Intermediate" /><span>Intermediate</span></label>
+                  <label><input type="radio" name="experience" value="Experienced" /><span>Experienced</span></label>
+                </div>
+              </div>
+              <label>
+                <span>Is there anything I should know before your session? <small>Optional</small></span>
+                <textarea name="considerations" rows="3" maxlength="600" placeholder="For example, injuries, physical limitations, or anything that may affect your training"></textarea>
+              </label>
+              <div class="question-block">
+                <p>Have you completed your pre-exercise health screening? <b>Required</b></p>
+                <div class="choice-stack">
+                  <label><input type="radio" name="screening" value="Yes" required /><span>Yes</span></label>
+                  <label><input type="radio" name="screening" value="No" /><span>No</span></label>
+                  <label><input type="radio" name="screening" value="New client — screening needed" /><span>I’m a new client and need to complete it</span></label>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="intake-section final-intake-section">
+              <legend>One last thing</legend>
+              <label>
+                <span>How did you hear about me? <small>Optional</small></span>
+                <select name="source">
+                  <option value="">Select an option</option>
+                  <option>Instagram</option><option>Facebook</option><option>Google</option><option>Recommendation</option><option>Existing client</option><option>Other</option>
+                </select>
+              </label>
+              <label class="confirm-check">
+                <input type="checkbox" name="accuracy" required />
+                <span>I confirm the information I’ve provided is accurate and understand that my booking is subject to the terms and conditions.</span>
+              </label>
+            </fieldset>
+
+            <p class="form-error" data-intake-error role="alert"></p>
+            <button class="confirm-button" type="submit">Continue to available times <span aria-hidden="true">→</span></button>
+            <p class="privacy-note"><span aria-hidden="true">▱</span> Your answers are used only to prepare for your personal training session.</p>
+          </form>
+        </div>
+
+        <div class="booking-form-view" data-form-view hidden>
+          <header class="card-heading">
+            <div>
+              <p class="section-label">Book a session</p>
+              <h2 id="booking-title">Pick a day and time</h2>
+            </div>
+            <span class="duration-pill">Step 2 of 2</span>
+          </header>
+
+          <div class="client-summary">
+            <div><small>Booking for</small><strong data-client-name></strong><span data-client-goal></span></div>
+            <button type="button" data-edit-details>Edit answers</button>
+          </div>
+
+          <form data-booking-form novalidate>
+            <fieldset class="booking-step">
+              <legend><span>1</span>Choose a date</legend>
+              <div class="date-control">
+                <label for="booking-date">Session date</label>
+                <input id="booking-date" name="date" type="date" required />
+              </div>
+              <p class="availability-note">Weekdays 06:00–19:00 · Saturday 06:00–17:00</p>
+            </fieldset>
+
+            <fieldset class="booking-step">
+              <legend><span>2</span>Choose a time</legend>
+              <div class="time-heading">
+                <p data-selected-day>Choose a date to see times</p>
+                <span>Europe/London</span>
+              </div>
+              <div class="time-grid" data-time-grid aria-live="polite">
+                <div class="time-placeholder">Available times will appear here.</div>
+              </div>
+              <input type="hidden" name="time" data-time-input required />
+            </fieldset>
+
+            <div class="selection-summary" data-selection-summary hidden>
+              <span class="summary-check" aria-hidden="true">✓</span>
+              <div><small>Your session</small><strong data-summary-text></strong></div>
+              <button type="button" data-change-time>Change</button>
+            </div>
+
+            <p class="form-error" data-form-error role="alert"></p>
+            <button class="confirm-button" type="submit" data-submit disabled>
+              <span data-submit-text>Select a date and time</span>
+              <span aria-hidden="true">→</span>
+            </button>
+            <p class="privacy-note"><span aria-hidden="true">▱</span> We’ll use your details only for your booking and its confirmation.</p>
+          </form>
+        </div>
+
+        <div class="success-view" data-success-view hidden>
+          <div class="success-icon" aria-hidden="true"><span>✓</span></div>
+          <p class="section-label">Booking confirmed</p>
+          <h2>You’re all set.</h2>
+          <p class="success-copy">Your session has been reserved. A confirmation and calendar invitation are ready to go.</p>
+
+          <div class="confirmation-ticket">
+            <div class="ticket-date"><span data-success-day></span><strong data-success-date></strong></div>
+            <div class="ticket-detail"><small>Time</small><strong data-success-time></strong><span>60 minutes</span></div>
+            <div class="ticket-detail"><small>Location</small><strong>PT studio</strong><span>Details in confirmation</span></div>
+          </div>
+
+          <div class="delivery-status">
+            <p><span aria-hidden="true">✓</span><strong>Slot reserved</strong><small>Added to Darryl’s owner calendar</small></p>
+            <p><span aria-hidden="true">✓</span><strong>Confirmation prepared</strong><small data-email-destination></small></p>
+          </div>
+
+          <div class="success-actions">
+            <a class="calendar-button" data-google-calendar target="_blank" rel="noreferrer">Add to Google Calendar <span aria-hidden="true">↗</span></a>
+            <button class="secondary-button" type="button" data-download-ics>Download calendar file</button>
+          </div>
+          <button class="book-another" type="button" data-book-another>Book another session</button>
+          <p class="prototype-disclaimer">MVP demo: the booking is saved in this browser. Live email and automatic Google Calendar sync are the next production integration.</p>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" data-toast role="status" aria-live="polite"></div>
+  </body>
+</html>

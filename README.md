@@ -15,6 +15,7 @@ Then visit `http://localhost:8080`.
 ## Notes
 
 - The enquiry form is a front-end demo and does not send data.
+- `booking.html` is an interactive customer-booking MVP. It prevents locally booked slots from being selected twice, creates an add-to-Google-Calendar link and `.ics` download, and writes the demo appointment into the owner dashboard's browser storage.
 - `dashboard.html` is an interactive business-dashboard demo for booking, client, note, and email management. Changes persist in local browser storage.
 - Motion respects the system `prefers-reduced-motion` setting.
 - The hero uses the supplied Darryl gym photograph.
