@@ -1,0 +1,162 @@
+.account {
+  display: grid;
+  gap: 1.5rem;
+  padding-block: clamp(2rem, 5vw, 3.5rem) clamp(4rem, 8vw, 6rem);
+}
+.account h2 {
+  font-size: clamp(1.875rem, 3.5vw, 2.5rem);
+}
+.member {
+  display: grid;
+  gap: clamp(3rem, 6vw, 4.5rem);
+}
+.member .section-head {
+  margin-bottom: 1.5rem;
+}
+
+/* Sign in */
+.auth-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: 2rem 3rem;
+}
+.auth-card .muted,
+.balance .muted {
+  margin-top: 0.75rem;
+}
+.auth-form {
+  display: grid;
+  gap: 0.5rem;
+}
+.auth-form .btn {
+  margin-top: 0.5rem;
+}
+
+/* Balance */
+.balance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 2.5rem;
+}
+.balance > div:first-child {
+  flex: 1 1 16rem;
+}
+.credit {
+  display: grid;
+  justify-items: center;
+  padding: 1rem 1.75rem;
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+}
+.credit strong {
+  color: var(--accent);
+  font: 700 3.25rem/1 var(--font-display);
+}
+.credit span {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* Packs */
+.packs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.pack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.pack h3 {
+  margin-top: 1.25rem;
+}
+.price {
+  margin-top: 0.25rem;
+  color: var(--ink);
+  font: 700 3rem/1 var(--font-display);
+}
+.pack-note {
+  flex: 1;
+  margin: 0.75rem 0 1.5rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+.pack .btn {
+  width: 100%;
+}
+.pack-featured {
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow);
+}
+
+/* Slots & bookings (rows are rendered by account.js) */
+.slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.75rem;
+}
+.slot {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.slot span {
+  color: var(--ink);
+  font-weight: 700;
+}
+.slots > p {
+  grid-column: 1 / -1;
+  padding: 2rem 1.5rem;
+  color: var(--muted);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  text-align: center;
+}
+.bookings {
+  padding: 0.5rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.bookings > p {
+  padding: 1rem 0;
+  color: var(--muted);
+}
+.booking {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.booking:last-child {
+  border-bottom: 0;
+}
+.booking span:first-child {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.help {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 860px) {
+  .auth-card,
+  .packs {
+    grid-template-columns: 1fr;
+  }
+}

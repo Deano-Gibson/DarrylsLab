@@ -1,22 +1,33 @@
 # DL Coaching
 
-A polished, responsive one-page coaching site for a UK-based personal trainer. Built with semantic HTML, modern CSS, and a small amount of vanilla JavaScript.
+A Vite multi-page site for DL Coaching. The public pages are `index.html`, `account.html`, and `online.html`; Vercel functions under `api/` handle checkout, Stripe fulfillment, Google Calendar availability, and booking. The site is **not live-commerce ready** until the external services are configured and the end-to-end checks in [the deployment runbook](docs/deployment.md) pass.
 
-## Run locally
+## Project layout
 
-Open `index.html` directly, or serve the folder with any static server:
-
-```powershell
-python -m http.server 8080
+```text
+api/                  Vercel HTTP entrypoints only
+server/               Server-only Supabase, Stripe, and Calendar logic
+src/pages/            Browser scripts for live pages
+src/styles/           Shared CSS foundation and page styles
+public/assets/        Static images and favicon
+database/             Reviewed SQL setup (not an applied migration)
+scripts/              One-time Google Calendar authorization helper
+tests/                Automated tests
+docs/                 Architecture and deployment guidance
+archive/prototypes/   Preserved, non-deployed browser-only demos
 ```
 
-Then visit `http://localhost:8080`.
+The three HTML files remain at the root because Vite uses them as explicit page entrypoints. The archived booking, dashboard, and original online-intake prototypes are not included in the production build. The public `online.html` now explains the service without pretending to submit a lead.
 
-## Notes
+## Local checks
 
-- The enquiry form is a front-end demo and does not send data.
-- `online.html` provides the online-coaching intake and passwordless profile-creation MVP, writing new leads into the same owner workspace.
-- `booking.html` is an interactive customer-booking MVP. It prevents locally booked slots from being selected twice, creates an add-to-Google-Calendar link and `.ics` download, and writes the demo appointment into the owner dashboard's browser storage.
-- `dashboard.html` is an interactive business-dashboard demo for booking, client, note, and email management. Changes persist in local browser storage.
-- Motion respects the system `prefers-reduced-motion` setting.
-- The hero uses the supplied Darryl gym photograph.
+```sh
+npm ci
+npm test
+npm run build
+npm run dev
+```
+
+Copy `.env.example` to `.env.local` and supply the public Supabase values to test sign-in locally. Use a server-capable local runtime such as `vercel dev` for `/api/*`; Vite alone does not run those endpoints. Never put server secrets in `VITE_` variables.
+
+See [architecture](docs/architecture.md) for boundaries and booking invariants, and [deployment](docs/deployment.md) for the service configuration and launch checklist.

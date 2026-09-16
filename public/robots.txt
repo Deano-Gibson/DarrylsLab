@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /account.html
+Disallow: /booking.html
+Disallow: /dashboard.html
+Disallow: /api/
+Sitemap: https://darrylslab.com/sitemap.xml

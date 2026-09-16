@@ -2,136 +2,104 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Create your DL Coaching profile and apply for personalised online coaching." />
-    <meta name="theme-color" content="#081522" />
-    <title>Start Online Coaching | DL Coaching</title>
-    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,follow" />
+    <meta
+      name="description"
+      content="Learn about DL Coaching's personalised online coaching offer."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Online Coaching | DL Coaching</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="booking.css?v=2" />
-    <link rel="stylesheet" href="online.css?v=1" />
-    <script src="online.js?v=1" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <link rel="stylesheet" href="/src/styles/service.css" />
+    <script type="module" src="/src/pages/site.js"></script>
   </head>
-  <body class="online-page">
-    <a class="skip-link" href="#online-profile">Skip to profile form</a>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <header class="booking-header">
-      <a class="booking-brand" href="index.html" aria-label="DL Coaching home">
-        <span class="booking-symbol" aria-hidden="true"><b>D</b><b>L</b></span>
-        <span class="booking-name"><strong>Coaching</strong><small>Join the lab</small></span>
-      </a>
-      <nav class="booking-nav" aria-label="Customer journeys"><a href="index.html">Home</a><a class="active" href="online.html" aria-current="page">Online coaching</a><a href="booking.html">In person</a></nav>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="DL Coaching home">
+          <img src="/assets/favicon.svg" alt="" width="36" height="36" /><span>DL Coaching</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="sr-only">Menu</span><span></span><span></span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary">
+          <a aria-current="page" href="/online.html">Online coaching</a>
+          <a href="/account.html">In-person training</a>
+          <a href="/#about">About</a>
+          <a class="btn btn-primary btn-sm" href="/account.html">Book a session</a>
+        </nav>
+      </div>
     </header>
 
-    <main class="booking-shell online-shell">
-      <section class="booking-intro online-intro" aria-labelledby="online-page-title">
-        <div>
-          <p class="eyebrow"><span></span>1:1 online coaching</p>
-          <h1 id="online-page-title">Your plan.<br /><em>Your progress.</em></h1>
-          <p class="intro-copy">Create your coaching profile and tell Darryl where you are now, where you want to go, and what support will help you get there.</p>
+    <main id="main">
+      <section class="page-hero theme-dark">
+        <div class="container">
+          <p class="eyebrow">Online coaching</p>
+          <h1>Expert coaching, <em>wherever you train.</em></h1>
+          <p class="lead">
+            A structured plan, guidance and accountability designed around your goals and routine.
+          </p>
         </div>
-
-        <dl class="session-facts">
-          <div><dt><span class="fact-icon" aria-hidden="true">P</span>Personal plan</dt><dd>Built around your life</dd></div>
-          <div><dt><span class="fact-icon" aria-hidden="true">W</span>Weekly support</dt><dd>Check-ins and feedback</dd></div>
-          <div><dt><span class="fact-icon" aria-hidden="true">↗</span>Track progress</dt><dd>Clear next steps</dd></div>
-        </dl>
-
-        <aside class="demo-note" aria-label="Prototype information"><strong>Interactive MVP</strong><span>Your profile flows into the same DL Coaching workspace as in-person clients.</span></aside>
       </section>
 
-      <section class="booking-card online-card" id="online-profile" aria-label="Create your online coaching profile">
-        <div data-online-form-view>
-          <header class="card-heading intake-heading">
+      <section class="section" aria-labelledby="service-title">
+        <div class="container">
+          <div class="card service">
             <div>
-              <p class="section-label">Create your profile</p>
-              <h2>Start online coaching</h2>
-              <p class="heading-copy">A few details help Darryl understand your goals before getting your plan set up.</p>
+              <span class="badge badge-warning">Coming soon</span>
+              <h2 id="service-title">Applications are not open yet</h2>
+              <p class="muted">
+                We are preparing a proper online-coaching enrolment process. We will not collect
+                your details until there is a secure way for Darryl to receive and respond to them.
+              </p>
+              <a class="btn btn-primary" href="/account.html"
+                >Explore in-person sessions <span class="arrow" aria-hidden="true">→</span></a
+              >
             </div>
-            <span class="duration-pill">2–3 min</span>
-          </header>
-
-          <form class="intake-form" data-online-form novalidate>
-            <fieldset class="intake-section">
-              <legend>Your account</legend>
-              <div class="field-grid">
-                <label><span>Full name <b>Required</b></span><input name="name" autocomplete="name" placeholder="e.g. Jamie Smith" required /></label>
-                <label><span>Email address <b>Required</b></span><input name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
-              </div>
-              <label><span>Phone number <b>Required</b></span><input name="phone" type="tel" autocomplete="tel" placeholder="e.g. 07700 900123" required /></label>
-              <div class="account-note"><span aria-hidden="true">✦</span><p><strong>Passwordless setup</strong>Your secure sign-in link will be sent by email when the live account system is connected.</p></div>
-            </fieldset>
-
-            <fieldset class="intake-section">
-              <legend>Your goals</legend>
-              <div class="question-block">
-                <p>What is your main goal? <b>Required</b></p>
-                <div class="choice-grid goal-grid">
-                  <label><input type="radio" name="goal" value="Lose body fat" required /><span>Lose body fat</span></label>
-                  <label><input type="radio" name="goal" value="Build muscle" /><span>Build muscle</span></label>
-                  <label><input type="radio" name="goal" value="Get stronger" /><span>Get stronger</span></label>
-                  <label><input type="radio" name="goal" value="Improve fitness" /><span>Improve fitness</span></label>
-                  <label><input type="radio" name="goal" value="Improve confidence" /><span>Improve confidence</span></label>
-                  <label><input type="radio" name="goal" value="Get back into training" /><span>Get back into training</span></label>
-                  <label><input type="radio" name="goal" value="General health &amp; wellbeing" /><span>General health &amp; wellbeing</span></label>
-                  <label><input type="radio" name="goal" value="Other" /><span>Other</span></label>
-                </div>
-              </div>
-              <label><span>What would you most like to achieve? <b>Required</b></span><input name="outcome" placeholder="Tell Darryl what success would look like" required /></label>
-            </fieldset>
-
-            <fieldset class="intake-section">
-              <legend>Your training</legend>
-              <div class="question-block">
-                <p>How would you describe your experience? <b>Required</b></p>
-                <div class="choice-grid">
-                  <label><input type="radio" name="experience" value="Complete beginner" required /><span>Complete beginner</span></label>
-                  <label><input type="radio" name="experience" value="Beginner" /><span>Beginner</span></label>
-                  <label><input type="radio" name="experience" value="Intermediate" /><span>Intermediate</span></label>
-                  <label><input type="radio" name="experience" value="Experienced" /><span>Experienced</span></label>
-                </div>
-              </div>
-              <div class="field-grid">
-                <label><span>Where will you train? <b>Required</b></span><select name="location" required><option value="">Select an option</option><option>Commercial gym</option><option>Home gym</option><option>At home — minimal equipment</option><option>Outdoors</option><option>Not sure yet</option></select></label>
-                <label><span>When would you like to start? <b>Required</b></span><select name="start" required><option value="">Select an option</option><option>As soon as possible</option><option>Within 2 weeks</option><option>Within a month</option><option>Just exploring for now</option></select></label>
-              </div>
-              <label><span>What support would help most? <b>Required</b></span><select name="support" required><option value="">Select an option</option><option>Training programme</option><option>Training and nutrition</option><option>Accountability and consistency</option><option>Technique and confidence</option><option>A complete coaching plan</option></select></label>
-              <label><span>Anything else Darryl should know? <small>Optional</small></span><textarea name="notes" rows="3" maxlength="600" placeholder="Schedule, injuries, limitations, preferences, or previous challenges"></textarea></label>
-            </fieldset>
-
-            <fieldset class="intake-section final-intake-section">
-              <legend>Ready to begin</legend>
-              <label><span>How did you hear about DL Coaching? <small>Optional</small></span><select name="source"><option value="">Select an option</option><option>Instagram</option><option>Facebook</option><option>Google</option><option>Recommendation</option><option>Existing client</option><option>Other</option></select></label>
-              <label class="confirm-check"><input type="checkbox" name="accuracy" required /><span>I confirm the information I’ve provided is accurate and agree that Darryl may use it to prepare my coaching profile.</span></label>
-            </fieldset>
-
-            <p class="form-error" data-online-error role="alert"></p>
-            <button class="confirm-button" type="submit" data-online-submit><span>Create coaching profile</span><span aria-hidden="true">→</span></button>
-            <p class="privacy-note"><span aria-hidden="true">▱</span> Your information is used only for your DL Coaching enquiry and setup.</p>
-          </form>
-        </div>
-
-        <div class="success-view online-success" data-online-success hidden>
-          <div class="success-icon" aria-hidden="true"><span>✓</span></div>
-          <p class="section-label">Profile created</p>
-          <h2>Welcome to the lab.</h2>
-          <p class="success-copy">Your coaching profile is ready for Darryl to review. The next step is a quick conversation before your plan is built.</p>
-          <div class="profile-ticket">
-            <span class="profile-avatar" data-profile-initials></span>
-            <div><small>Online coaching profile</small><strong data-profile-name></strong><span data-profile-goal></span></div>
+            <div class="service-details">
+              <h3>What the programme is designed to include</h3>
+              <ul class="check-list">
+                <li>Training shaped around your experience and equipment</li>
+                <li>Practical nutrition guidance</li>
+                <li>Regular check-ins and progress reviews</li>
+                <li>Adjustments as your needs change</li>
+              </ul>
+            </div>
           </div>
-          <div class="delivery-status">
-            <p><span aria-hidden="true">✓</span><strong>Profile saved</strong><small>Visible in the DL Coaching workspace</small></p>
-            <p><span aria-hidden="true">✓</span><strong>Welcome email prepared</strong><small data-online-email></small></p>
-            <p><span aria-hidden="true">✓</span><strong>Next step</strong><small>Darryl reviews your answers and gets in touch</small></p>
-          </div>
-          <div class="success-actions"><a class="calendar-button" href="index.html">Back to DL Coaching</a><a class="secondary-button" href="booking.html">View in-person training</a></div>
-          <button class="book-another" type="button" data-reset-profile>Create another profile</button>
-          <p class="prototype-disclaimer">MVP demo: this profile is stored in your browser. Secure authentication and live welcome emails are production integrations.</p>
         </div>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <a class="brand" href="/" aria-label="DL Coaching home">
+            <img src="/assets/favicon.svg" alt="" width="36" height="36" /><span>DL Coaching</span>
+          </a>
+          <p>Build the body. Build the confidence. Personal training online and in person.</p>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="/online.html">Online coaching</a>
+          <a href="/account.html">In-person training</a>
+          <a href="/#includes">What’s included</a>
+          <a href="/#about">About</a>
+          <a href="/#process">How it works</a>
+          <a href="/account.html">My sessions</a>
+        </nav>
+      </div>
+      <div class="container footer-base">
+        <small>© <span data-year></span> DL Coaching. All rights reserved.</small>
+      </div>
+    </footer>
   </body>
 </html>

@@ -1,0 +1,21 @@
+{
+  "name": "dl-coaching",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "test": "node --test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.116.0",
+    "stripe": "20.3.0"
+  },
+  "devDependencies": {
+    "prettier": "3.9.7",
+    "vite": "7.3.1"
+  }
+}

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta
+      name="description"
+      content="Sign in to DL Coaching, buy personal training sessions and book one-hour appointments with Darryl."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>My Sessions | DL Coaching</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <link rel="stylesheet" href="/src/styles/account.css" />
+    <script type="module" src="/src/pages/site.js"></script>
+    <script type="module" src="/src/pages/account.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="DL Coaching home">
+          <img src="/assets/favicon.svg" alt="" width="36" height="36" /><span>DL Coaching</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="sr-only">Menu</span><span></span><span></span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary">
+          <a href="/online.html">Online coaching</a>
+          <a aria-current="page" href="/account.html">In-person training</a>
+          <a href="/#about">About</a>
+          <a class="btn btn-primary btn-sm" href="/account.html">Book a session</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="page-hero theme-dark">
+        <div class="container">
+          <p class="eyebrow">In-person training</p>
+          <h1>Your training, <em>on your schedule.</em></h1>
+          <p class="lead">
+            Buy a pack, then use one credit to reserve each one-hour session with Darryl.
+          </p>
+        </div>
+      </section>
+
+      <div class="container account">
+        <p id="notice" class="notice" role="status" hidden></p>
+
+        <section id="auth-panel" class="card auth-card" aria-labelledby="auth-title">
+          <div>
+            <p class="eyebrow">Get started</p>
+            <h2 id="auth-title">Create an account or sign in</h2>
+            <p class="muted">
+              Enter your email and we’ll send you a secure sign-in link. No password to remember.
+            </p>
+          </div>
+          <form id="auth-form" class="auth-form">
+            <label class="label" for="email">Email address</label>
+            <input
+              class="input"
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            />
+            <button class="btn btn-primary" type="submit">Email me a sign-in link</button>
+            <p id="auth-error" class="error" role="alert"></p>
+          </form>
+        </section>
+
+        <div id="member" class="member" hidden>
+          <section class="card balance" aria-labelledby="balance-title">
+            <div>
+              <p class="eyebrow">Your account</p>
+              <h2 id="balance-title">Welcome back</h2>
+              <p id="member-email" class="muted"></p>
+            </div>
+            <div class="credit">
+              <strong id="credit-count">—</strong><span>session credits</span>
+            </div>
+            <button id="sign-out" class="btn btn-secondary btn-sm" type="button">Sign out</button>
+          </section>
+
+          <section aria-labelledby="packs-title">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Step 1 · Add credits</p>
+                <h2 id="packs-title">Choose your session pack</h2>
+              </div>
+              <p>Each credit books one 60-minute in-person session.</p>
+            </div>
+            <div class="packs">
+              <article class="card pack">
+                <span class="badge badge-muted">Start here</span>
+                <h3 class="display">1 session</h3>
+                <p class="price">£45</p>
+                <p class="pack-note">One focused hour, built around your goals.</p>
+                <button class="btn btn-secondary" data-pack="one" type="button">
+                  Buy 1 credit
+                </button>
+              </article>
+              <article class="card pack">
+                <span class="badge badge-muted">Build momentum</span>
+                <h3 class="display">2 sessions</h3>
+                <p class="price">£80</p>
+                <p class="pack-note">Two hours to establish a rhythm. £40 per session.</p>
+                <button class="btn btn-secondary" data-pack="two" type="button">
+                  Buy 2 credits
+                </button>
+              </article>
+              <article class="card pack pack-featured">
+                <span class="badge">Best value</span>
+                <h3 class="display">8 sessions</h3>
+                <p class="price">£250</p>
+                <p class="pack-note">Eight hours of consistent coaching. £31.25 per session.</p>
+                <button class="btn btn-primary" data-pack="eight" type="button">
+                  Buy 8 credits
+                </button>
+              </article>
+            </div>
+          </section>
+
+          <section aria-labelledby="slots-title">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Step 2 · Book a session</p>
+                <h2 id="slots-title">Available times</h2>
+              </div>
+              <p>
+                Published times are checked against Darryl’s Google Calendar. Times shown in UK
+                local time; book at least 12 hours ahead.
+              </p>
+            </div>
+            <div id="slots" class="slots" aria-live="polite"><p>Loading availability…</p></div>
+          </section>
+
+          <section aria-labelledby="upcoming-title">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Your schedule</p>
+                <h2 id="upcoming-title">Your bookings</h2>
+              </div>
+            </div>
+            <div id="bookings" class="bookings"><p>Loading your bookings…</p></div>
+          </section>
+        </div>
+
+        <p class="help">
+          Need to change a booking, or is one still pending? Please contact Darryl directly.
+          Self-service cancellations are not yet available.
+        </p>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <a class="brand" href="/" aria-label="DL Coaching home">
+            <img src="/assets/favicon.svg" alt="" width="36" height="36" /><span>DL Coaching</span>
+          </a>
+          <p>Build the body. Build the confidence. Personal training online and in person.</p>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="/online.html">Online coaching</a>
+          <a href="/account.html">In-person training</a>
+          <a href="/#includes">What’s included</a>
+          <a href="/#about">About</a>
+          <a href="/#process">How it works</a>
+          <a href="/account.html">My sessions</a>
+        </nav>
+      </div>
+      <div class="container footer-base">
+        <small>© <span data-year></span> DL Coaching. All rights reserved.</small>
+      </div>
+    </footer>
+  </body>
+</html>

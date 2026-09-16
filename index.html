@@ -3,127 +3,301 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="DL Coaching provides personalised 1:1 online coaching to help you build muscle, lose body fat, and follow a plan that fits your life." />
-    <meta name="theme-color" content="#070a0f" />
+    <meta
+      name="description"
+      content="DL Coaching provides personalised 1:1 online coaching to help you build muscle, lose body fat, and follow a plan that fits your life."
+    />
+    <meta name="theme-color" content="#ffffff" />
     <title>DL Coaching | Online & In-Person Personal Training</title>
-    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=3" />
-    <script src="script.js?v=2" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <link rel="stylesheet" href="/src/styles/home.css" />
+    <script type="module" src="/src/pages/site.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
 
-    <header class="site-header" data-header>
-      <a class="brand" href="#top" aria-label="DL Coaching home">
-        <span class="brand-symbol" aria-hidden="true"><b>D</b><b>L</b></span>
-        <span class="brand-name"><strong>Coaching</strong><small>Join the lab</small></span>
-      </a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span class="sr-only">Toggle navigation</span><span></span><span></span>
-      </button>
-      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="online.html">Online coaching</a><a href="booking.html">In-person training</a><a href="#about">About</a><a href="#process">The process</a>
-        <a class="nav-cta" href="online.html">Get started <span aria-hidden="true">↗</span></a>
-      </nav>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="DL Coaching home">
+          <img src="/assets/favicon.svg" alt="" width="36" height="36" /><span>DL Coaching</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="sr-only">Menu</span><span></span><span></span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary">
+          <a href="/online.html">Online coaching</a>
+          <a href="/account.html">In-person training</a>
+          <a href="/#about">About</a>
+          <a class="btn btn-primary btn-sm" href="/account.html">Book a session</a>
+        </nav>
+      </div>
     </header>
 
     <main id="main">
-      <section class="hero" id="top" aria-labelledby="hero-title">
-        <img class="hero-image" src="assets/darryl-hero.jpg" alt="Coach Darryl in the gym" fetchpriority="high" />
-        <div class="hero-shade" aria-hidden="true"></div><div class="hero-grid" aria-hidden="true"></div>
-        <div class="hero-content">
-          <p class="eyebrow reveal"><span>DL Coaching</span> Online + in-person coaching</p>
-          <h1 id="hero-title" class="reveal">Build the body.<br /><em>Build the confidence.</em></h1>
-          <p class="hero-copy reveal">Personal coaching for people who want a clear plan, expert support, and progress that lasts. Choose the coaching path that fits how you want to train.</p>
-          <div class="hero-actions service-actions reveal" aria-label="Choose a coaching service">
-            <a class="service-choice service-choice-primary" href="online.html"><span><small>Ongoing support</small>Online coaching</span><b aria-hidden="true">↗</b></a>
-            <a class="service-choice service-choice-secondary" href="booking.html"><span><small>Book a session</small>In-person coaching</span><b aria-hidden="true">↗</b></a>
+      <section class="hero theme-dark" aria-labelledby="hero-title">
+        <div class="container hero-inner">
+          <div>
+            <p class="eyebrow">Online + in-person coaching</p>
+            <h1 id="hero-title">Build the body. <em>Build the confidence.</em></h1>
+            <p class="lead">
+              Personal coaching for people who want a clear plan, expert support, and progress that
+              lasts. In-person sessions are available through your account; online coaching
+              applications are being prepared.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="/account.html"
+                >Book an in-person session <span class="arrow" aria-hidden="true">→</span></a
+              >
+              <a class="btn btn-secondary" href="/online.html"
+                >Online coaching <span class="badge">Coming soon</span></a
+              >
+            </div>
+            <ul class="check-list hero-points">
+              <li>1:1 personalised plan</li>
+              <li>Weekly check-ins</li>
+              <li>Direct support</li>
+            </ul>
+          </div>
+          <figure class="hero-media">
+            <img
+              src="/assets/darryl-hero.jpg"
+              alt="Coach Darryl in the gym"
+              width="351"
+              height="457"
+              fetchpriority="high"
+            />
+            <figcaption class="hero-card">
+              <strong>One plan, built around you</strong>
+              <span>Real accountability, every week</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="for-you" aria-labelledby="fit-title">
+        <div class="container split">
+          <div class="reveal">
+            <p class="eyebrow">Is coaching for you?</p>
+            <h2 id="fit-title">You’re ready for a plan that <em>actually sticks.</em></h2>
+            <p class="lead fit-lead">
+              You don’t need more random workouts or another short-lived diet. You need structure,
+              support, and a plan that works in real life.
+            </p>
+          </div>
+          <ul class="check-list fit-grid reveal">
+            <li>You’ve been training but aren’t seeing the results you want.</li>
+            <li>You don’t know exactly what you should be eating.</li>
+            <li>You struggle to stay consistent when life gets busy.</li>
+            <li>You want a structured training programme.</li>
+            <li>You want someone keeping you accountable.</li>
+            <li>You’re ready to take your training seriously.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="includes" aria-labelledby="includes-title">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <p class="eyebrow">What coaching includes</p>
+              <h2 id="includes-title">Everything you need. <em>Nothing you don’t.</em></h2>
+            </div>
+            <p>
+              Personalised guidance, honest feedback, and clear next steps—so you always know what
+              to focus on.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature feature-lead reveal">
+              <span class="feature-icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6.5 6v12M17.5 6v12M3 9v6M21 9v6M6.5 12h11" /></svg
+              ></span>
+              <h3 class="display">Personalised training</h3>
+              <p>
+                A programme built around your goals, experience, schedule, equipment, and
+                availability.
+              </p>
+            </article>
+            <article class="feature reveal">
+              <span class="feature-icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 3v7a2 2 0 0 0 4 0V3M8 3v18M18 21V3c-2.5 1.5-3.5 4-3.5 7v4H18" /></svg
+              ></span>
+              <h3>Nutrition coaching</h3>
+              <p>
+                Practical nutrition guidance designed around your lifestyle—not a restrictive meal
+                plan.
+              </p>
+            </article>
+            <article class="feature reveal">
+              <span class="feature-icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m3 17 6-6 4 4 8-8M15 7h6v6" /></svg
+              ></span>
+              <h3>Progress tracking</h3>
+              <p>
+                We monitor weight, measurements, photos, habits, and training performance to keep
+                progress visible.
+              </p>
+            </article>
+            <article class="feature reveal">
+              <span class="feature-icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z" /></svg
+              ></span>
+              <h3>Direct support</h3>
+              <p>
+                Message me when you need guidance, feedback, or an adjustment. You’re never left
+                guessing.
+              </p>
+            </article>
+            <article class="feature reveal">
+              <span class="feature-icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="16" rx="2" />
+                  <path d="M8 3v4M16 3v4M3 10h18M9 15.5l2 2 4-4" /></svg
+              ></span>
+              <h3>Weekly check-ins</h3>
+              <p>
+                We review your week, identify what’s working, and make changes where they’re needed.
+              </p>
+            </article>
           </div>
         </div>
-        <div class="hero-stamp reveal" aria-label="Personalised coaching, weekly check-ins, direct support"><span>One plan</span><strong>Built around you</strong><span>Real accountability</span></div>
-        <p class="hero-index" aria-hidden="true">DL / 01</p>
       </section>
 
-      <section class="fit section-pad" id="for-you" aria-labelledby="fit-title">
-        <div class="section-intro reveal">
-          <p class="eyebrow dark"><span>01</span> Is the coaching for you?</p>
-          <h2 id="fit-title">You’re ready for a plan<br />that <em>actually sticks.</em></h2>
-          <p>You don’t need more random workouts or another short-lived diet. You need structure, support, and a plan that works in real life.</p>
-        </div>
-        <div class="fit-list reveal">
-          <article><span>01</span><p>You’ve been training but aren’t seeing the results you want.</p></article>
-          <article><span>02</span><p>You don’t know exactly what you should be eating.</p></article>
-          <article><span>03</span><p>You struggle to stay consistent when life gets busy.</p></article>
-          <article><span>04</span><p>You want a structured training programme.</p></article>
-          <article><span>05</span><p>You want someone keeping you accountable.</p></article>
-          <article><span>06</span><p>You’re ready to take your training seriously.</p></article>
-        </div>
-      </section>
-
-      <section class="includes section-pad" id="includes" aria-labelledby="includes-title">
-        <div class="section-heading reveal">
-          <div><p class="eyebrow"><span>02</span> What coaching includes</p><h2 id="includes-title">Everything you need.<br /><em>Nothing you don’t.</em></h2></div>
-          <p>Personalised guidance, honest feedback, and clear next steps—so you always know what to focus on.</p>
-        </div>
-        <div class="include-grid">
-          <article class="include-card include-card-featured reveal"><div class="card-number">01</div><div class="card-icon" aria-hidden="true">P</div><h3>Personalised training</h3><p>A programme built around your goals, experience, schedule, equipment, and availability.</p></article>
-          <article class="include-card reveal"><div class="card-number">02</div><div class="card-icon" aria-hidden="true">N</div><h3>Nutrition coaching</h3><p>Practical nutrition guidance designed around your lifestyle—not a restrictive meal plan.</p></article>
-          <article class="include-card reveal"><div class="card-number">03</div><div class="card-icon" aria-hidden="true">↗</div><h3>Progress tracking</h3><p>We monitor weight, measurements, photos, habits, and training performance to keep progress visible.</p></article>
-          <article class="include-card reveal"><div class="card-number">04</div><div class="card-icon" aria-hidden="true">D</div><h3>Direct support</h3><p>Message me when you need guidance, feedback, or an adjustment. You’re never left guessing.</p></article>
-          <article class="include-card reveal"><div class="card-number">05</div><div class="card-icon" aria-hidden="true">W</div><h3>Weekly check-ins</h3><p>We review your week, identify what’s working, and make changes where they’re needed.</p></article>
-        </div>
-      </section>
-
-      <section class="about section-pad" id="about" aria-labelledby="about-title">
-        <div class="about-visual reveal">
-          <img src="assets/darryl-hero.jpg" alt="Darryl, founder and coach at DL Coaching" loading="lazy" />
-          <div class="about-monogram" aria-hidden="true"><span>D</span><span>L</span></div><p>Founder / Coach<br />South Africa → UK</p>
-        </div>
-        <div class="about-copy reveal">
-          <p class="eyebrow dark"><span>03</span> About me</p><h2 id="about-title">I’m Darryl.<br /><em>Your coach.</em></h2>
-          <p class="lead">I’m here to take the guesswork out of training and give you the structure and support to follow through.</p>
-          <p>Growing up in South Africa shaped my belief in resilience and community. Now coaching in the UK, I help everyday people train with purpose, build confidence, and stay consistent—online and in person.</p>
-          <blockquote>“You don’t need to be perfect. You need a plan you’ll actually follow.”</blockquote>
-          <a class="text-link dark-link" href="#apply">Let’s build your plan <span aria-hidden="true">→</span></a>
+      <section class="section" id="about" aria-labelledby="about-title">
+        <div class="container split">
+          <figure class="about-media reveal">
+            <img
+              src="/assets/darryl-hero.jpg"
+              alt="Darryl, founder and coach at DL Coaching"
+              width="351"
+              height="457"
+              loading="lazy"
+            />
+            <figcaption><strong>Darryl</strong>Founder &amp; coach · South Africa → UK</figcaption>
+          </figure>
+          <div class="about-copy reveal">
+            <p class="eyebrow">About me</p>
+            <h2 id="about-title">I’m Darryl. <em>Your coach.</em></h2>
+            <p class="lead">
+              I’m here to take the guesswork out of training and give you the structure and support
+              to follow through.
+            </p>
+            <p class="muted">
+              Growing up in South Africa shaped my belief in resilience and community. Now coaching
+              in the UK, I help everyday people train with purpose, build confidence, and stay
+              consistent—online and in person.
+            </p>
+            <blockquote>
+              “You don’t need to be perfect. You need a plan you’ll actually follow.”
+            </blockquote>
+            <a class="btn btn-primary" href="#apply"
+              >Let’s build your plan <span class="arrow" aria-hidden="true">→</span></a
+            >
+          </div>
         </div>
       </section>
 
-      <section class="process section-pad" id="process" aria-labelledby="process-title">
-        <div class="section-heading reveal">
-          <div><p class="eyebrow"><span>04</span> What the process is like</p><h2 id="process-title">Simple steps.<br /><em>Serious progress.</em></h2></div>
-          <p>Whether you choose online or in-person coaching, you’ll always know what happens next.</p>
+      <section class="section section-alt" id="process" aria-labelledby="process-title">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <p class="eyebrow">How it works</p>
+              <h2 id="process-title">Simple steps. <em>Serious progress.</em></h2>
+            </div>
+            <p>
+              Whether you choose online or in-person coaching, you’ll always know what happens next.
+            </p>
+          </div>
+          <ol class="steps">
+            <li class="reveal">
+              <h3>Choose your path</h3>
+              <p>Pick ongoing online coaching or reserve a focused in-person session.</p>
+            </li>
+            <li class="reveal">
+              <h3>Tell me your goals</h3>
+              <p>
+                Complete a short intake so I understand your experience and what you want to
+                achieve.
+              </p>
+            </li>
+            <li class="reveal">
+              <h3>Get set up</h3>
+              <p>
+                Create an account, choose a session pack and reserve an available in-person time.
+              </p>
+            </li>
+            <li class="reveal">
+              <h3>Train with purpose</h3>
+              <p>Follow a focused plan with clear guidance and support from your coach.</p>
+            </li>
+            <li class="reveal">
+              <h3>Keep progressing</h3>
+              <p>Review what’s working, track progress, and take the next useful step.</p>
+            </li>
+          </ol>
         </div>
-        <ol class="process-list">
-          <li class="reveal"><span>01</span><div><h3>Choose your path</h3><p>Pick ongoing online coaching or reserve a focused in-person session.</p></div></li>
-          <li class="reveal"><span>02</span><div><h3>Tell me your goals</h3><p>Complete a short intake so I understand your experience and what you want to achieve.</p></div></li>
-          <li class="reveal"><span>03</span><div><h3>Get set up</h3><p>Create your online profile or choose an available time for your in-person session.</p></div></li>
-          <li class="reveal"><span>04</span><div><h3>Train with purpose</h3><p>Follow a focused plan with clear guidance and support from your coach.</p></div></li>
-          <li class="reveal"><span>05</span><div><h3>Keep progressing</h3><p>Review what’s working, track progress, and take the next useful step.</p></div></li>
-        </ol>
       </section>
 
-      <section class="contact section-pad" id="apply" aria-labelledby="contact-title">
-        <div class="contact-intro reveal">
-          <p class="eyebrow dark"><span>05</span> Start here</p><h2 id="contact-title">Ready to join<br /><em>the lab?</em></h2>
-          <p>Both routes begin with a short questionnaire, so your first interaction is relevant, prepared, and focused on your goals.</p>
-          <div class="availability"><span aria-hidden="true"></span> Online profiles and in-person bookings open</div>
-        </div>
-        <div class="pathway-selector reveal">
-          <a href="online.html"><span class="pathway-number">01</span><div><small>Ongoing coaching</small><h3>Online coaching</h3><p>Create your coaching profile and tell Darryl what support you need.</p></div><b aria-hidden="true">↗</b></a>
-          <a href="booking.html"><span class="pathway-number">02</span><div><small>Focused sessions</small><h3>In-person coaching</h3><p>Complete your intake, see live availability, and reserve a time.</p></div><b aria-hidden="true">↗</b></a>
-          <p>Not sure? Start with online coaching and Darryl can help you choose the best route.</p>
+      <section class="section" id="apply" aria-labelledby="apply-title">
+        <div class="container">
+          <div class="cta reveal">
+            <div>
+              <p class="eyebrow">Start here</p>
+              <h2 id="apply-title">Ready to join <em>the lab?</em></h2>
+              <p class="lead">
+                Choose online coaching or create an account to buy and book in-person sessions.
+              </p>
+            </div>
+            <div class="path-list">
+              <a class="path-card" href="/account.html">
+                <span class="badge badge-success">Booking open</span>
+                <h3 class="display">In-person coaching</h3>
+                <p>Choose a session pack, see available times, and book with credits.</p>
+                <span class="path-arrow" aria-hidden="true">→</span>
+              </a>
+              <a class="path-card" href="/online.html">
+                <span class="badge badge-muted">Coming soon</span>
+                <h3 class="display">Online coaching</h3>
+                <p>Explore the online programme. Applications are not open yet.</p>
+                <span class="path-arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <a class="brand footer-brand" href="#top" aria-label="DL Coaching home"><span class="brand-symbol" aria-hidden="true"><b>D</b><b>L</b></span><span class="brand-name"><strong>Coaching</strong><small>Join the lab</small></span></a>
-      <p>Build the body.<br /><span>Build the confidence.</span></p>
-      <div class="footer-links"><a href="online.html">Online coaching ↗</a><a href="booking.html">In-person coaching ↗</a><a href="#includes">What’s included</a><a href="#about">About</a><a href="#process">Process</a><a href="dashboard.html">Owner sign in ↗</a><a href="#top">Back to top ↑</a></div>
-      <small>© <span data-year></span> DL Coaching. All rights reserved.</small>
+      <div class="container footer-inner">
+        <div>
+          <a class="brand" href="/" aria-label="DL Coaching home">
+            <img src="/assets/favicon.svg" alt="" width="36" height="36" /><span>DL Coaching</span>
+          </a>
+          <p>Build the body. Build the confidence. Personal training online and in person.</p>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="/online.html">Online coaching</a>
+          <a href="/account.html">In-person training</a>
+          <a href="/#includes">What’s included</a>
+          <a href="/#about">About</a>
+          <a href="/#process">How it works</a>
+          <a href="/account.html">My sessions</a>
+        </nav>
+      </div>
+      <div class="container footer-base">
+        <small>© <span data-year></span> DL Coaching. All rights reserved.</small>
+      </div>
     </footer>
   </body>
 </html>
