@@ -1,4 +1,4 @@
-import { admin, packs, stripeClient } from '../server/platform.js';
+import { db, packs, stripeClient } from '../server/platform.js';
 
 export async function POST(request) {
   const signature = request.headers.get('stripe-signature');
@@ -33,12 +33,9 @@ export async function POST(request) {
       console.error('Invalid paid checkout metadata', session.id);
       return Response.json({ error: 'Invalid checkout metadata' }, { status: 500 });
     }
-    const { error } = await admin().rpc('credit_paid_pack', {
-      p_session: session.id,
-      p_user: userId,
-      p_pack: pack,
-    });
-    if (error) {
+    try {
+      await db()`select public.credit_paid_pack(${session.id}, ${userId}::uuid, ${pack})`;
+    } catch (error) {
       console.error('Credit fulfillment failed', session.id, error);
       return Response.json({ error: 'Fulfillment failed; retry required' }, { status: 500 });
     }

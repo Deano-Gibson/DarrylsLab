@@ -60,11 +60,18 @@
           <div>
             <p class="eyebrow">Get started</p>
             <h2 id="auth-title">Create an account or sign in</h2>
-            <p class="muted">
-              Enter your email and we’ll send you a secure sign-in link. No password to remember.
-            </p>
+            <p class="muted">Create your account to buy session credits and book with Darryl.</p>
           </div>
           <form id="auth-form" class="auth-form">
+            <label class="label" for="auth-mode">I want to</label>
+            <select class="input" id="auth-mode" name="mode">
+              <option value="create">Create an account</option>
+              <option value="sign-in">Sign in</option>
+            </select>
+            <div id="name-field">
+              <label class="label" for="name">Your name</label>
+              <input class="input" id="name" name="name" type="text" autocomplete="name" required />
+            </div>
             <label class="label" for="email">Email address</label>
             <input
               class="input"
@@ -75,8 +82,42 @@
               placeholder="you@example.com"
               required
             />
-            <button class="btn btn-primary" type="submit">Email me a sign-in link</button>
+            <label class="label" for="password">Password</label>
+            <input
+              class="input"
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            />
+            <button class="btn btn-primary" type="submit">Create account</button>
             <p id="auth-error" class="error" role="alert"></p>
+            <button id="forgot-password" class="btn btn-secondary btn-sm" type="button">
+              Forgot your password?
+            </button>
+          </form>
+        </section>
+
+        <section id="reset-panel" class="card auth-card" aria-labelledby="reset-title" hidden>
+          <div>
+            <p class="eyebrow">Account recovery</p>
+            <h2 id="reset-title">Choose a new password</h2>
+            <p class="muted">Your reset link can be used once and expires automatically.</p>
+          </div>
+          <form id="reset-form" class="auth-form">
+            <label class="label" for="new-password">New password</label>
+            <input
+              class="input"
+              id="new-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            />
+            <button class="btn btn-primary" type="submit">Update password</button>
+            <p id="reset-error" class="error" role="alert"></p>
           </form>
         </section>
 

@@ -1,16 +1,9 @@
-import { admin, packs, siteOrigin, stripeClient } from '../server/platform.js';
+import { customer, packs, siteOrigin, stripeClient } from '../server/platform.js';
 
 export async function POST(request) {
   try {
-    const bearer = request.headers.get('authorization')?.match(/^Bearer (.+)$/i)?.[1];
-    if (!bearer) return Response.json({ error: 'Please sign in first.' }, { status: 401 });
-    const db = admin();
-    const {
-      data: { user },
-      error,
-    } = await db.auth.getUser(bearer);
-    if (error || !user || user.is_anonymous)
-      return Response.json({ error: 'Please sign in first.' }, { status: 401 });
+    const user = await customer(request);
+    if (!user) return Response.json({ error: 'Please sign in first.' }, { status: 401 });
     const { pack } = await request.json();
     if (typeof pack !== 'string' || !Object.hasOwn(packs, pack))
       return Response.json({ error: 'Invalid session pack.' }, { status: 400 });

@@ -1,26 +1,14 @@
-import { admin } from '../server/platform.js';
+import { customer, db } from '../server/platform.js';
 import { busyIntervals, overlaps } from '../server/services/google-calendar.js';
 
 export async function GET(request) {
-  const bearer = request.headers.get('authorization')?.match(/^Bearer (.+)$/i)?.[1];
-  if (!bearer) return Response.json({ error: 'Sign in first' }, { status: 401 });
+  if (!(await customer(request))) return Response.json({ error: 'Sign in first' }, { status: 401 });
   try {
-    const db = admin();
-    const {
-      data: { user },
-      error: authError,
-    } = await db.auth.getUser(bearer);
-    if (authError || !user || user.is_anonymous)
-      return Response.json({ error: 'Sign in first' }, { status: 401 });
-    const { data: slots, error } = await db
-      .from('training_slots')
-      .select('id,starts_at,ends_at')
-      .eq('available', true)
-      .gt('starts_at', new Date(Date.now() + 12 * 3600000).toISOString())
-      .lt('starts_at', new Date(Date.now() + 60 * 86400000).toISOString())
-      .order('starts_at')
-      .limit(100);
-    if (error) throw error;
+    const earliest = new Date(Date.now() + 12 * 3600000).toISOString();
+    const latest = new Date(Date.now() + 60 * 86400000).toISOString();
+    const slots = await db()`select id, starts_at, ends_at from public.training_slots
+      where available and starts_at > ${earliest} and starts_at < ${latest}
+      order by starts_at limit 100`;
     if (!slots?.length) return Response.json({ slots: [] });
     const busy = await busyIntervals(slots[0].starts_at, slots.at(-1).ends_at);
     return Response.json(

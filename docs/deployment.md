@@ -1,27 +1,27 @@
 # Deployment runbook
 
-The in-person account flow requires Supabase, Stripe, Google Calendar, and a server-capable deployment. It fails closed when those services are not configured. The original browser-only online intake is preserved under `archive/prototypes/online` and is not deployed.
+The account stack is Neon Postgres + Neon Auth, Stripe Checkout, Google Calendar, and Vercel Functions. A database connection alone does not activate payments or booking. Keep the site closed to paid bookings until the end-to-end checks below pass.
 
-## How in-person sessions work
+## Environment
 
-1. A client enters an email on `account.html`; Supabase Auth emails a magic link. Confirmed users can see their balance and published slots.
-2. Stripe Checkout charges the server-defined pack price: 1 / £45, 2 / £80, or 8 / £250. The browser cannot set a price or issue credits.
-3. Stripe calls `/api/stripe-webhook` with a signed event. Only a paid checkout credits the account. The checkout session ID is unique, so retries do not duplicate credits.
-4. The server checks Darryl's Google Calendar free/busy. `reserve_training_slot` locks the slot and balance in one database transaction and deducts one credit. It rechecks the calendar and inserts an event with the client invited. A definite conflict returns the credit; an uncertain Calendar/API failure leaves a visible pending booking for manual reconciliation rather than risking a duplicate appointment or credit.
+Set every value in [`.env.example`](../.env.example) in Vercel Production, Preview, and local development as appropriate. `DATABASE_URL`, Stripe keys, and Google credentials are server-only. `VITE_NEON_AUTH_URL` is public and must match `NEON_AUTH_URL`; the JWKS URL is the Auth URL plus `/.well-known/jwks.json`. Use the endpoint URLs supplied by Neon for the same database branch as `DATABASE_URL`.
 
-## Setup before taking real payments
+The ignored local `.env` is now in `KEY=value` form. Do not commit it. Add the same values to Vercel; local files do not reach production automatically. Redeploy after adding variables. `PUBLIC_SITE_URL` must be the live HTTPS origin.
 
-1. Create a Supabase project and review and run [`database/schema.sql`](../database/schema.sql) in its SQL editor. This is a setup script, not an applied migration. Check the RLS policies and run the Supabase security advisors. Create test users and verify another user cannot read their purchases, balance, or bookings.
-2. Configure email delivery with a custom SMTP provider. Add the production `https://YOUR_DOMAIN/account.html` and local development URLs to Supabase Auth redirect allow-list. Confirm your email templates and rate limits.
-3. Create a Stripe account and webhook endpoint `https://YOUR_DOMAIN/api/stripe-webhook`, subscribed to `checkout.session.completed` and `checkout.session.async_payment_succeeded`. Use test keys and a test webhook secret first. Configure tax/VAT, receipts, refund policy, dispute handling, and business details in Stripe.
-4. Deploy to Vercel (or a platform supporting the Web Request/Response serverless functions in `api/`). Set all variables from [`.env.example`](../.env.example). `VITE_` values are public; the Supabase secret and Stripe keys must remain server-only. Set `PUBLIC_SITE_URL` to your deployed origin, with no path. Never deploy this as GitHub Pages alone: static hosting does not run the checkout/webhook functions.
-5. Enable Google Calendar API in a Google Cloud project. Create a **Web application** OAuth client with authorized redirect URI `http://localhost:8765/callback`. Set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` locally, then run `node scripts/connect-google-calendar.js` and have Darryl authorize his own Google account. Store the resulting `GOOGLE_REFRESH_TOKEN` only in deployment secrets; set `GOOGLE_CALENDAR_ID` to `primary` or the calendar ID he authorized. The app requests event-write and free/busy scopes. A Google OAuth consent screen in External/Testing mode issues refresh tokens that expire after seven days; publish/configure the OAuth app appropriately before launch. Calendar access can also be revoked, so monitor failed availability requests. [Google OAuth setup](https://developers.google.com/identity/protocols/oauth2/web-server), [Google consent status](https://support.google.com/cloud/answer/15549945).
-6. Publish actual one-hour potential availability in `training_slots` via the Supabase SQL editor or a protected admin tool. Google Calendar **blocks busy times** within these published slots; it does not generate Darryl's working hours. Do not advertise availability until Darryl confirms it. Existing booked slots stay unavailable; cancellations, rescheduling, refunds, and pending-booking reconciliation require a staffed policy/workflow.
-7. Verify a complete test purchase, a replayed webhook, booking the last credit, two clients attempting the same slot, external Google events blocking times, invitations reaching clients, UK daylight-saving display, a Google outage/pending booking, and a failed payment. Switch to live keys only after all pass.
-8. Add a privacy notice, terms, cancellation/refund policy, verified contact address and business location. Confirm the public domain in `public/sitemap.xml` and `public/robots.txt`. Build a real online-coaching intake before opening applications.
+## Initial setup
+
+1. In Neon, enable Auth for the database branch, add the production domain and local development origin as trusted origins, and configure email delivery. The current account page uses email/password signup. Enable email verification and password-reset emails before launch; review Neon Auth's password and rate-limit settings. Test signup, sign-in, sign-out, and a second user's isolation. The current branch's Auth config does **not** require email verification yet.
+2. Run `npm run db:setup` against the intended Neon branch. This applies [`database/schema.sql`](../database/schema.sql) in a transaction and verifies the account table. It is safe to rerun for this schema version. Do not run it against a database with an unrelated existing `session_*` schema without reviewing the SQL.
+3. In Stripe, set a webhook endpoint at `https://YOUR_DOMAIN/api/stripe-webhook` for `checkout.session.completed` and `checkout.session.async_payment_succeeded`. Put its signing secret and the matching API secret in Vercel. Test with Stripe test mode, including a replayed webhook; the checkout session ID makes crediting idempotent. Configure receipts, taxes, refund/cancellation policy, and business details before live mode.
+4. Enable Google Calendar API. Create a Web OAuth client with local redirect `http://localhost:8765/callback`, run `node scripts/connect-google-calendar.js`, and have Darryl authorize his calendar. Store the resulting refresh token only as a server secret. Set `GOOGLE_CALENDAR_ID`. A Google OAuth consent screen left in External/Testing mode may yield a refresh token expiring after seven days; configure it for production. [Google OAuth guide](https://developers.google.com/identity/protocols/oauth2/web-server).
+5. Publish one-hour candidate hours in `training_slots` using the Neon SQL editor. Google Calendar removes busy periods from those candidates; it does not generate working hours. Avoid publishing until Darryl confirms the schedule.
+
+## Launch checks
+
+Run `npm test`, `npm run build`, then exercise a full test signup → checkout → signed webhook → credit balance → booking → Google event/invitation. Verify two users racing for one slot, last-credit booking, UK daylight-saving display, Stripe webhook replay, a failed payment, Calendar outages, and pending-booking reconciliation. Do not turn on live Stripe keys until those pass. Add privacy/terms/cancellation and verified contact details, and confirm the domain in the sitemap and robots file.
+
+The site does not yet have an owner admin interface, self-service cancellations/refunds, or a working online-coaching application. Those remain launch decisions, not implemented features.
 
 ## Local development
 
-`npm ci`, copy `.env.example` to `.env.local` and set the public values, then `npm run dev`. The Vite dev server serves the static client; use `vercel dev` to exercise `/api/*` locally. Run `npm run build` for a production asset build. No live external service is connected merely by building this repository.
-
-The original browser-only pages are under [`archive/prototypes`](../archive/prototypes) and excluded from the production build. The homepage sends in-person clients to `account.html`.
+Use `npm ci`, then `vercel dev` for the account and `/api/*` routes. `npm run dev` serves Vite pages but not the API. The `.env` connection string is not a browser value. Keep credentials out of `VITE_` variables except the public Neon Auth URL.

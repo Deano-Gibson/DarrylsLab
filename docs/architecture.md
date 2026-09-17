@@ -1,22 +1,17 @@
 # Architecture
 
-## Live surfaces
+- `index.html`, `online.html`, `account.html`: Vite multi-page browser entrypoints. Only the Auth endpoint URL is public.
+- `api/*.js`: Vercel Functions for account reads, checkout, signed Stripe fulfillment, availability, and booking.
+- `server/platform.js`: server-only Neon SQL, JWT verification against the branch JWKS, and Stripe setup.
+- `server/services/google-calendar.js`: OAuth refresh, free/busy, and deterministic event creation.
+- `database/schema.sql`: private Postgres tables and transaction-safe credit/booking functions.
 
-- `index.html`: public marketing page, built from `src/pages/site.js`, `src/styles/base.css`, and `src/styles/home.css`.
-- `account.html`: client sign-in, credit packs, availability, and bookings, built from `src/pages/site.js`, `src/pages/account.js`, `src/styles/base.css`, and `src/styles/account.css`.
-- `online.html`: informational page. Online applications are deliberately closed until a secure intake and owner workflow exist.
-- `api/*.js`: Vercel Request/Response functions. No server secret is imported by browser code.
+## Money and booking invariants
 
-## Booking invariants
+1. Pack IDs, credit counts, and GBP prices are defined server-side. The browser cannot choose an amount.
+2. Only a paid, signature-verified Stripe Checkout event calls `credit_paid_pack`. The unique Stripe session ID prevents double crediting.
+3. API routes require a Neon Auth JWT verified against the configured JWKS and look up the current, non-banned user in Neon Auth. User IDs in URLs or request bodies are never trusted as ownership claims.
+4. `reserve_training_slot` locks the slot and balance inside one Postgres transaction before spending one credit. A slot is booked at most once; balances cannot go below zero.
+5. Published slots are candidates. The server checks Google free/busy and fails closed if it cannot check. The Google event ID is deterministic. A definite conflict returns the credit; an uncertain Calendar/API result leaves the reservation pending for manual reconciliation rather than risking a duplicate event.
 
-1. Pack IDs and prices are defined server-side in `server/platform.js`. The browser sends a pack ID, never an amount.
-2. A signed Stripe webhook calls `credit_paid_pack`. A unique checkout session ID prevents duplicate credits on retry.
-3. Only the server can call `reserve_training_slot` and `rollback_calendar_booking`. The database transaction locks the slot and balance before spending a credit.
-4. Published database slots are candidates, not a promise of availability. The availability and booking endpoints check Google Calendar free/busy. If that check fails, no new booking is offered.
-5. Google Calendar and Postgres cannot share a transaction. A definite calendar conflict returns the credit; an uncertain insertion leaves the booking pending and reserved for manual reconciliation. The system must not silently create a second event or refund a possibly booked appointment.
-
-## Boundaries and current gaps
-
-`public/assets` contains deployable static files. `archive/prototypes` contains historical localStorage demos and must remain outside the Vite entrypoints and public navigation. Do not copy prototype data into production without a migration and consent review.
-
-There is not yet an owner admin interface for publishing slots, cancellation/rescheduling/refund automation, a live online-coaching intake, or a verified production integration test. These are launch work, not hidden demo features.
+Postgres and Google Calendar cannot share a transaction. Pending bookings require Darryl to reconcile. There is no cancellation, reschedule, refund, or owner publishing interface yet. Archived browser-only prototypes are not deployed.

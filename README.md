@@ -6,7 +6,7 @@ A Vite multi-page site for DL Coaching. The public pages are `index.html`, `acco
 
 ```text
 api/                  Vercel HTTP entrypoints only
-server/               Server-only Supabase, Stripe, and Calendar logic
+server/               Server-only Neon, Stripe, and Calendar logic
 src/pages/            Browser scripts for live pages
 src/styles/           Shared CSS foundation and page styles
 public/assets/        Static images and favicon
@@ -28,6 +28,6 @@ npm run build
 npm run dev
 ```
 
-Copy `.env.example` to `.env.local` and supply the public Supabase values to test sign-in locally. Use a server-capable local runtime such as `vercel dev` for `/api/*`; Vite alone does not run those endpoints. Never put server secrets in `VITE_` variables.
+Configure the Neon and service variables in `.env.example`, then run `npm run db:setup` for the chosen Neon branch. Use `vercel dev` for `/api/*`; Vite alone does not run those endpoints. Never put server secrets in `VITE_` variables.
 
 See [architecture](docs/architecture.md) for boundaries and booking invariants, and [deployment](docs/deployment.md) for the service configuration and launch checklist.
