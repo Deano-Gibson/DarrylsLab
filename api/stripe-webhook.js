@@ -1,4 +1,4 @@
-import { db, packs, stripeClient } from '../server/platform.js';
+import { db, fulfillmentPacks as packs, stripeClient } from '../server/platform.js';
 
 export async function POST(request) {
   const signature = request.headers.get('stripe-signature');

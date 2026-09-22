@@ -4,8 +4,15 @@ import Stripe from 'stripe';
 
 export const packs = Object.freeze({
   one: { credits: 1, pence: 4500, label: '1 session' },
+  four: { credits: 4, pence: 15000, label: 'Starter · 4 sessions' },
+  eight: { credits: 8, pence: 25000, label: 'Transformation · 8 sessions' },
+  sixteen: { credits: 16, pence: 45000, label: 'Complete Transformation · 16 sessions' },
+});
+
+// Honour delayed payments from previously issued checkouts without selling the retired pack.
+export const fulfillmentPacks = Object.freeze({
+  ...packs,
   two: { credits: 2, pence: 8000, label: '2 sessions' },
-  eight: { credits: 8, pence: 25000, label: '8 sessions' },
 });
 
 let database;

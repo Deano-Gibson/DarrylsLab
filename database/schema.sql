@@ -15,8 +15,8 @@ create table if not exists public.training_slots (
 create table if not exists public.session_purchases (
   stripe_session_id text primary key,
   user_id uuid not null references neon_auth."user"(id),
-  pack text not null check (pack in ('one', 'two', 'eight')),
-  credits integer not null check (credits in (1, 2, 8)),
+  pack text not null check (pack in ('one', 'two', 'four', 'eight', 'sixteen')),
+  credits integer not null check (credits in (1, 2, 4, 8, 16)),
   created_at timestamptz not null default now()
 );
 create table if not exists public.session_bookings (
@@ -29,6 +29,14 @@ create table if not exists public.session_bookings (
 );
 create index if not exists session_bookings_user_idx on public.session_bookings(user_id, created_at desc);
 create index if not exists training_slots_available_starts_idx on public.training_slots(starts_at) where available;
+
+-- Expand existing installations too; retain the retired two-session pack for purchase history.
+alter table public.session_purchases drop constraint if exists session_purchases_pack_check;
+alter table public.session_purchases add constraint session_purchases_pack_check
+  check (pack in ('one', 'two', 'four', 'eight', 'sixteen'));
+alter table public.session_purchases drop constraint if exists session_purchases_credits_check;
+alter table public.session_purchases add constraint session_purchases_credits_check
+  check (credits in (1, 2, 4, 8, 16));
 
 -- Safe conversion of the short-lived text-id setup if it was already applied.
 alter table public.session_accounts alter column user_id type uuid using user_id::uuid;
@@ -58,7 +66,8 @@ create or replace function public.credit_paid_pack(p_session text, p_user uuid, 
 returns boolean language plpgsql security invoker set search_path = '' as $$
 declare v_count integer;
 begin
-  v_count := case p_pack when 'one' then 1 when 'two' then 2 when 'eight' then 8 else null end;
+  v_count := case p_pack when 'one' then 1 when 'two' then 2 when 'four' then 4
+    when 'eight' then 8 when 'sixteen' then 16 else null end;
   if p_session is null or p_user is null or v_count is null then raise exception 'Invalid purchase'; end if;
   insert into public.session_purchases(stripe_session_id, user_id, pack, credits)
     values (p_session, p_user, p_pack, v_count) on conflict do nothing;

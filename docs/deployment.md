@@ -18,6 +18,18 @@ The ignored local `.env` is now in `KEY=value` form. Do not commit it. Add the s
 
 ## Launch checks
 
+The in-person catalogue is now £45 for one session, Starter £150 for four,
+Transformation £250 for eight, and Complete Transformation £450 for sixteen.
+Run `npm run db:setup` before deploying this catalogue to an existing environment;
+it expands the purchase constraints and credit function. The retired two-session
+pack is retained only for purchase history and delayed Stripe fulfillment.
+
+As checked on 22 September 2026, the database configured in the local `.env` has
+the updated schema but no future available slots, purchases, or bookings. Local
+Neon database/Auth settings are present; Stripe, Google Calendar, and the public
+site URL settings are absent. The connected Vercel team returned no projects, so
+production configuration and deployment remain unverified.
+
 Run `npm test`, `npm run build`, then exercise a full test signup → checkout → signed webhook → credit balance → booking → Google event/invitation. Verify two users racing for one slot, last-credit booking, UK daylight-saving display, Stripe webhook replay, a failed payment, Calendar outages, and pending-booking reconciliation. Do not turn on live Stripe keys until those pass. Add privacy/terms/cancellation and verified contact details, and confirm the domain in the sitemap and robots file.
 
 The site does not yet have an owner admin interface, self-service cancellations/refunds, or a working online-coaching application. Those remain launch decisions, not implemented features.

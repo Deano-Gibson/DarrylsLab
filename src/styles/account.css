@@ -10,7 +10,7 @@
   display: grid;
   gap: clamp(3rem, 6vw, 4.5rem);
 }
-.member .section-head {
+.account .section-head {
   margin-bottom: 1.5rem;
 }
 
@@ -81,6 +81,7 @@
 }
 .pack-note {
   flex: 1;
+  align-content: start;
   margin: 0.75rem 0 1.5rem;
   color: var(--muted);
   font-size: 0.9375rem;
@@ -91,6 +92,17 @@
 .pack-featured {
   border: 2px solid var(--accent);
   box-shadow: var(--shadow);
+}
+.single-session {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.single-session .muted {
+  margin-top: 0.5rem;
 }
 
 /* Slots & bookings (rows are rendered by account.js) */

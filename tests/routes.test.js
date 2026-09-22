@@ -5,13 +5,18 @@ import { POST as webhook } from '../api/stripe-webhook.js';
 import { GET as availability } from '../api/availability.js';
 import { POST as book } from '../api/book.js';
 import { GET as account } from '../api/account.js';
-import { packs } from '../server/platform.js';
+import { packs, fulfillmentPacks } from '../server/platform.js';
 
 test('pack prices are explicit server-side amounts in pence', () => {
   assert.deepEqual(
-    Object.fromEntries(Object.entries(packs).map(([id, pack]) => [id, pack.pence])),
-    { one: 4500, two: 8000, eight: 25000 },
+    Object.fromEntries(Object.entries(packs).map(([id, pack]) => [id, [pack.pence, pack.credits]])),
+    { one: [4500, 1], four: [15000, 4], eight: [25000, 8], sixteen: [45000, 16] },
   );
+});
+
+test('retired two-session checkouts can still be fulfilled but cannot be purchased', () => {
+  assert.equal(Object.hasOwn(packs, 'two'), false);
+  assert.deepEqual(fulfillmentPacks.two, { credits: 2, pence: 8000, label: '2 sessions' });
 });
 
 test('private endpoints reject unsigned or anonymous requests', async () => {

@@ -220,10 +220,22 @@ $('#reset-form').addEventListener('submit', async (event) => {
 
 document.querySelectorAll('[data-pack]').forEach((button) =>
   button.addEventListener('click', async () => {
+    if (!auth)
+      return message('Account sign-in is not configured yet. Please contact Darryl.', 'error');
     button.disabled = true;
     const old = button.textContent;
     button.textContent = 'Opening checkout…';
     try {
+      const session = await auth.getSession();
+      if (!session.data?.user) {
+        message('Create an account or sign in below, then choose your package to continue.');
+        $('#auth-panel').hidden = false;
+        $('#auth-panel').scrollIntoView({ block: 'center' });
+        $('#email').focus({ preventScroll: true });
+        button.disabled = false;
+        button.textContent = old;
+        return;
+      }
       const response = await privateFetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

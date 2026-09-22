@@ -48,13 +48,85 @@
           <p class="eyebrow">In-person training</p>
           <h1>Your training, <em>on your schedule.</em></h1>
           <p class="lead">
-            Buy a pack, then use one credit to reserve each one-hour session with Darryl.
+            Choose a personal training package or a £45 single session. Every session is 60 minutes,
+            one-to-one with Darryl.
           </p>
         </div>
       </section>
 
       <div class="container account">
         <p id="notice" class="notice" role="status" hidden></p>
+
+        <section aria-labelledby="packs-title">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Step 1 · Add credits</p>
+              <h2 id="packs-title">Choose your PT package</h2>
+            </div>
+            <p>One-off package prices. Each credit books one 60-minute in-person session.</p>
+          </div>
+          <div class="packs">
+            <article class="card pack">
+              <span class="badge badge-muted">4 PT sessions</span>
+              <h3 class="display">Starter</h3>
+              <p class="price">£150</p>
+              <ul class="pack-note check-list">
+                <li>4 × 60-minute 1-to-1 sessions</li>
+                <li>Initial consultation &amp; goal setting</li>
+                <li>Personalised training guidance</li>
+                <li>Basic nutrition guidance</li>
+                <li>Progress review</li>
+              </ul>
+              <button class="btn btn-secondary" data-pack="four" type="button">
+                Choose Starter
+              </button>
+            </article>
+            <article class="card pack">
+              <span class="badge badge-muted">8 PT sessions</span>
+              <h3 class="display">Transformation</h3>
+              <p class="price">£250</p>
+              <ul class="pack-note check-list">
+                <li>8 × 60-minute 1-to-1 sessions</li>
+                <li>Initial assessment &amp; goal setting</li>
+                <li>Personalised training programme</li>
+                <li>Nutrition guidance</li>
+                <li>Progress tracking</li>
+                <li>Regular goal reviews</li>
+                <li>WhatsApp support between sessions</li>
+              </ul>
+              <button class="btn btn-secondary" data-pack="eight" type="button">
+                Choose Transformation
+              </button>
+            </article>
+            <article class="card pack pack-featured">
+              <span class="badge">16 PT sessions · Best value</span>
+              <h3 class="display">Complete Transformation</h3>
+              <p class="price">£450</p>
+              <ul class="pack-note check-list">
+                <li>16 × 60-minute 1-to-1 sessions</li>
+                <li>Full initial assessment</li>
+                <li>Completely personalised training programme</li>
+                <li>Nutrition guidance</li>
+                <li>Regular progress measurements</li>
+                <li>Weekly accountability</li>
+                <li>WhatsApp support</li>
+                <li>Programme adjustments as you progress</li>
+              </ul>
+              <button class="btn btn-primary" data-pack="sixteen" type="button">
+                Choose Complete Transformation
+              </button>
+            </article>
+          </div>
+          <article class="card single-session">
+            <div>
+              <h3>Single session · £45</h3>
+              <p class="muted">One 60-minute 1-to-1 PT session with Darryl.</p>
+            </div>
+            <button class="btn btn-secondary" data-pack="one" type="button">
+              Choose a single session
+            </button>
+          </article>
+        </section>
 
         <section id="auth-panel" class="card auth-card" aria-labelledby="auth-title">
           <div>
@@ -132,45 +204,6 @@
               <strong id="credit-count">—</strong><span>session credits</span>
             </div>
             <button id="sign-out" class="btn btn-secondary btn-sm" type="button">Sign out</button>
-          </section>
-
-          <section aria-labelledby="packs-title">
-            <div class="section-head">
-              <div>
-                <p class="eyebrow">Step 1 · Add credits</p>
-                <h2 id="packs-title">Choose your session pack</h2>
-              </div>
-              <p>Each credit books one 60-minute in-person session.</p>
-            </div>
-            <div class="packs">
-              <article class="card pack">
-                <span class="badge badge-muted">Start here</span>
-                <h3 class="display">1 session</h3>
-                <p class="price">£45</p>
-                <p class="pack-note">One focused hour, built around your goals.</p>
-                <button class="btn btn-secondary" data-pack="one" type="button">
-                  Buy 1 credit
-                </button>
-              </article>
-              <article class="card pack">
-                <span class="badge badge-muted">Build momentum</span>
-                <h3 class="display">2 sessions</h3>
-                <p class="price">£80</p>
-                <p class="pack-note">Two hours to establish a rhythm. £40 per session.</p>
-                <button class="btn btn-secondary" data-pack="two" type="button">
-                  Buy 2 credits
-                </button>
-              </article>
-              <article class="card pack pack-featured">
-                <span class="badge">Best value</span>
-                <h3 class="display">8 sessions</h3>
-                <p class="price">£250</p>
-                <p class="pack-note">Eight hours of consistent coaching. £31.25 per session.</p>
-                <button class="btn btn-primary" data-pack="eight" type="button">
-                  Buy 8 credits
-                </button>
-              </article>
-            </div>
           </section>
 
           <section aria-labelledby="slots-title">
