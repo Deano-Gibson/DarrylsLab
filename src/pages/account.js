@@ -1,10 +1,19 @@
 import { createAuthClient } from '@neondatabase/auth';
+import { accountSession, accountToken, authErrorMessage } from '../lib/account-auth.js';
 
 const $ = (selector) => document.querySelector(selector);
 const auth = import.meta.env.VITE_NEON_AUTH_URL
   ? createAuthClient(import.meta.env.VITE_NEON_AUTH_URL)
   : null;
 const resetToken = new URLSearchParams(location.search).get('token');
+let availableSlots = [];
+const ukDate = (value) =>
+  new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/London',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date(value));
 const ukTime = (value) =>
   new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Europe/London',
@@ -29,13 +38,32 @@ function el(tag, className, text = '') {
   return node;
 }
 
+function renderSlots() {
+  const list = $('#slots');
+  list.replaceChildren();
+  const selected = availableSlots.filter(
+    (slot) => ukDate(slot.starts_at) === $('#session-date').value,
+  );
+  if (!selected.length)
+    list.append(el('p', '', 'No available times on this day. Please choose another date.'));
+  for (const slot of selected) {
+    const button = el('button', 'btn btn-primary btn-sm', 'Book session');
+    button.type = 'button';
+    button.addEventListener('click', () => book(slot, button));
+    const row = el('div', 'slot');
+    row.append(el('span', '', ukTime(slot.starts_at)), button);
+    list.append(row);
+  }
+}
+$('#session-date').addEventListener('change', renderSlots);
+
 async function privateFetch(path, options = {}) {
   if (!auth) throw new Error('Account sign-in is not configured');
-  const token = await auth.getJWTToken();
-  if (!token) throw new Error('Please sign in again');
+  const token = await accountToken(auth);
   return fetch(path, {
     ...options,
     cache: 'no-store',
+    signal: AbortSignal.timeout(15000),
     headers: { ...options.headers, Authorization: `Bearer ${token}` },
   });
 }
@@ -54,46 +82,50 @@ async function refresh() {
     return;
   }
   try {
-    const session = await auth.getSession();
-    const signedIn = !!session.data?.user;
+    const session = await accountSession(auth);
+    const signedIn = !!session?.user;
     $('#auth-panel').hidden = signedIn;
     $('#member').hidden = !signedIn;
-    if (!signedIn) return;
+    if (!signedIn) return false;
+    $('#member-email').textContent = session.user.email;
     const [accountResponse, slotsResponse] = await Promise.all([
       privateFetch('/api/account'),
       privateFetch('/api/availability'),
     ]);
-    if (!accountResponse.ok)
+    if (!accountResponse.ok) {
+      if (accountResponse.status === 401) {
+        $('#auth-panel').hidden = false;
+        $('#member').hidden = true;
+      }
       throw new Error('Your account could not be loaded. Please sign in again.');
+    }
     const account = await accountResponse.json();
-    const slots = slotsResponse.ok ? (await slotsResponse.json()).slots : null;
+    const availability = await slotsResponse.json();
+    const slots = slotsResponse.ok ? availability.slots : null;
+    availableSlots = slots || [];
+    $('#date-picker').hidden = !slots?.length;
     $('#member-email').textContent = account.email;
-    $('#credit-count').textContent = account.credits;
     const slotList = $('#slots');
     slotList.replaceChildren();
     if (!slots) {
       slotList.append(
-        el('p', '', 'Availability is temporarily unavailable. Please try again later.'),
-      );
-      message(
-        'Darryl’s calendar cannot be checked right now. Booking is temporarily unavailable.',
-        'error',
+        el(
+          'p',
+          '',
+          availability.code === 'CALENDAR_NOT_CONNECTED'
+            ? 'Your account is ready. Booking will open once Darryl finishes connecting his calendar.'
+            : 'Availability is temporarily unavailable. Please try again later.',
+        ),
       );
     } else if (!slots.length) {
       slotList.append(el('p', '', 'No times are published right now. Please check back soon.'));
     }
-    for (const slot of slots || []) {
-      const button = el(
-        'button',
-        'btn btn-primary btn-sm',
-        account.credits ? 'Book · 1 credit' : 'Buy credits to book',
-      );
-      button.type = 'button';
-      button.disabled = !account.credits;
-      button.addEventListener('click', () => book(slot, button));
-      const row = el('div', 'slot');
-      row.append(el('span', '', ukTime(slot.starts_at)), button);
-      slotList.append(row);
+    if (slots?.length) {
+      const date = $('#session-date');
+      date.min = ukDate(slots[0].starts_at);
+      date.max = ukDate(slots.at(-1).starts_at);
+      if (!date.value || date.value < date.min || date.value > date.max) date.value = date.min;
+      renderSlots();
     }
     const booked = $('#bookings');
     booked.replaceChildren();
@@ -112,13 +144,25 @@ async function refresh() {
       );
       booked.append(row);
     }
+    return true;
   } catch (error) {
+    $('#date-picker').hidden = true;
+    $('#slots').replaceChildren(
+      el('p', '', 'Available times could not be loaded. Please refresh to retry.'),
+    );
+    $('#bookings').replaceChildren(
+      el('p', '', 'Your bookings could not be loaded. Please refresh to retry.'),
+    );
     message(error.message || 'We could not load your account. Please refresh.', 'error');
+    return null;
   }
 }
 
 async function book(slot, button) {
-  if (!confirm(`Use one credit to book ${ukTime(slot.starts_at)}?`)) return;
+  if (
+    !confirm(`Book a one-hour session for ${ukTime(slot.starts_at)}? No payment is taken online.`)
+  )
+    return;
   button.disabled = true;
   button.textContent = 'Booking…';
   try {
@@ -130,9 +174,9 @@ async function book(slot, button) {
     const result = await response.json();
     message(
       response.ok && response.status !== 202
-        ? 'Booked! Your session is on Darryl’s calendar and one credit was used.'
+        ? 'Booked! Your session is confirmed on Darryl’s calendar. No payment was taken online.'
         : result.error || 'Booking failed. Please refresh.',
-      response.ok ? 'success' : 'error',
+      response.status === 202 ? 'info' : response.ok ? 'success' : 'error',
     );
   } catch {
     message('Booking could not be completed. Please refresh before trying again.', 'error');
@@ -144,40 +188,65 @@ $('#auth-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!auth) return message('Account sign-in is not configured yet.', 'error');
   const button = event.currentTarget.querySelector('button');
+  const creating = $('#auth-mode').value === 'create';
+  const email = $('#email').value.trim();
+  const password = $('#password').value;
+  const name = $('#name').value.trim();
+  if (creating && !name) {
+    $('#auth-error').textContent = 'Enter your name.';
+    $('#name').focus();
+    return;
+  }
   button.disabled = true;
+  $('#auth-mode').disabled = true;
   button.textContent = 'Please wait…';
   $('#auth-error').textContent = '';
+  message('');
   try {
-    const email = $('#email').value.trim();
-    const password = $('#password').value;
-    const result =
-      $('#auth-mode').value === 'create'
-        ? await auth.signUp.email({ email, password, name: $('#name').value.trim() })
-        : await auth.signIn.email({ email, password });
+    const result = creating
+      ? await auth.signUp.email(
+          { email, password, name, callbackURL: `${location.origin}/account.html` },
+          { timeout: 15000 },
+        )
+      : await auth.signIn.email({ email, password }, { timeout: 15000 });
     if (result.error) throw result.error;
+    $('#password').value = '';
     message(
-      $('#auth-mode').value === 'create'
-        ? 'Account created. Check your email for next steps, then sign in.'
+      creating
+        ? 'Account created. You’re signed in and ready to view available times.'
         : 'Signed in successfully.',
       'success',
     );
-    await refresh();
-  } catch {
-    $('#auth-error').textContent =
-      'We could not complete sign-in. Check your details and try again.';
+    const signedIn = await refresh();
+    if (signedIn === false) {
+      $('#auth-mode').value = 'sign-in';
+      updateAuthMode();
+      message(
+        creating
+          ? 'Account created. Sign in to continue; if email verification is requested, check your inbox.'
+          : 'Your session could not be saved. Allow cookies for this site, then sign in again.',
+        'info',
+      );
+    }
+  } catch (error) {
+    $('#auth-error').textContent = authErrorMessage(error, creating);
   } finally {
     button.disabled = false;
+    $('#auth-mode').disabled = false;
     button.textContent = $('#auth-mode').value === 'create' ? 'Create account' : 'Sign in';
   }
 });
 
-$('#auth-mode').addEventListener('change', () => {
+function updateAuthMode() {
   const creating = $('#auth-mode').value === 'create';
   $('#name-field').hidden = !creating;
   $('#name').required = creating;
   $('#password').autocomplete = creating ? 'new-password' : 'current-password';
   $('#auth-form button').textContent = creating ? 'Create account' : 'Sign in';
-});
+  $('#auth-error').textContent = '';
+  $('#forgot-password').hidden = creating;
+}
+$('#auth-mode').addEventListener('change', updateAuthMode);
 
 $('#forgot-password').addEventListener('click', async () => {
   const email = $('#email').value.trim();
@@ -186,10 +255,13 @@ $('#forgot-password').addEventListener('click', async () => {
   const button = $('#forgot-password');
   button.disabled = true;
   try {
-    const result = await auth.requestPasswordReset({
-      email,
-      redirectTo: `${location.origin}/account.html`,
-    });
+    const result = await auth.requestPasswordReset(
+      {
+        email,
+        redirectTo: `${location.origin}/account.html`,
+      },
+      { timeout: 15000 },
+    );
     if (result.error) throw result.error;
     message('If this email has an account, a password-reset link is on its way.', 'success');
   } catch {
@@ -206,10 +278,13 @@ $('#reset-form').addEventListener('submit', async (event) => {
   button.disabled = true;
   $('#reset-error').textContent = '';
   try {
-    const result = await auth.resetPassword({
-      newPassword: $('#new-password').value,
-      token: resetToken,
-    });
+    const result = await auth.resetPassword(
+      {
+        newPassword: $('#new-password').value,
+        token: resetToken,
+      },
+      { timeout: 15000 },
+    );
     if (result.error) throw result.error;
     location.assign('/account.html?reset=success');
   } catch {
@@ -218,53 +293,29 @@ $('#reset-form').addEventListener('submit', async (event) => {
   }
 });
 
-document.querySelectorAll('[data-pack]').forEach((button) =>
-  button.addEventListener('click', async () => {
-    if (!auth)
-      return message('Account sign-in is not configured yet. Please contact Darryl.', 'error');
-    button.disabled = true;
-    const old = button.textContent;
-    button.textContent = 'Opening checkout…';
-    try {
-      const session = await auth.getSession();
-      if (!session.data?.user) {
-        message('Create an account or sign in below, then choose your package to continue.');
-        $('#auth-panel').hidden = false;
-        $('#auth-panel').scrollIntoView({ block: 'center' });
-        $('#email').focus({ preventScroll: true });
-        button.disabled = false;
-        button.textContent = old;
-        return;
-      }
-      const response = await privateFetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pack: button.dataset.pack }),
-      });
-      const result = await response.json();
-      if (!response.ok || !result.url) throw new Error();
-      location.assign(result.url);
-    } catch {
-      message('Checkout could not open. Please refresh and try again.', 'error');
-      button.disabled = false;
-      button.textContent = old;
-    }
-  }),
-);
-
 $('#sign-out').addEventListener('click', async () => {
-  await auth.signOut();
-  message('You have signed out.');
-  await refresh();
+  const button = $('#sign-out');
+  button.disabled = true;
+  try {
+    const result = await auth.signOut({}, { timeout: 15000 });
+    if (result.error) throw result.error;
+    $('#member-email').textContent = '';
+    $('#slots').replaceChildren();
+    availableSlots = [];
+    $('#date-picker').hidden = true;
+    $('#bookings').replaceChildren();
+    $('#auth-mode').value = 'sign-in';
+    updateAuthMode();
+    message('You have signed out.');
+    await refresh();
+  } catch {
+    message('Sign-out could not be completed. Please try again.', 'error');
+  } finally {
+    button.disabled = false;
+  }
 });
 
-const payment = new URLSearchParams(location.search).get('payment');
-if (payment === 'success')
-  message(
-    'Payment received by Stripe. Credits appear after confirmation; refresh in a moment.',
-    'success',
-  );
-if (payment === 'cancelled') message('Checkout was cancelled. You have not been charged.');
 if (new URLSearchParams(location.search).get('reset') === 'success')
   message('Password updated. Sign in with your new password.', 'success');
+updateAuthMode();
 refresh();

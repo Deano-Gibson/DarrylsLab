@@ -33,7 +33,7 @@
   margin-top: 0.5rem;
 }
 
-/* Balance */
+/* Account summary */
 .balance {
   display: flex;
   flex-wrap: wrap;
@@ -43,23 +43,6 @@
 .balance > div:first-child {
   flex: 1 1 16rem;
 }
-.credit {
-  display: grid;
-  justify-items: center;
-  padding: 1rem 1.75rem;
-  background: var(--accent-soft);
-  border-radius: var(--radius);
-}
-.credit strong {
-  color: var(--accent);
-  font: 700 3.25rem/1 var(--font-display);
-}
-.credit span {
-  color: var(--muted);
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-
 /* Packs */
 .packs {
   display: grid;
@@ -106,6 +89,14 @@
 }
 
 /* Slots & bookings (rows are rendered by account.js) */
+.date-picker {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.date-picker .input {
+  max-width: 20rem;
+}
 .slots {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));

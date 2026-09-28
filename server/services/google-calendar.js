@@ -1,18 +1,27 @@
+import { calendarCredentials } from './calendar-store.js';
+import { digest } from './calendar-secrets.js';
+
 const API = 'https://www.googleapis.com/calendar/v3';
 let tokenCache;
 
-function settings() {
-  const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN, GOOGLE_CALENDAR_ID } =
-    process.env;
-  if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REFRESH_TOKEN || !GOOGLE_CALENDAR_ID) {
+async function settings() {
+  const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
+  if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
     throw new Error('Google Calendar configuration is missing');
   }
-  return { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN, GOOGLE_CALENDAR_ID };
+  const { refreshToken, calendarId } = await calendarCredentials();
+  return {
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    GOOGLE_REFRESH_TOKEN: refreshToken,
+    GOOGLE_CALENDAR_ID: calendarId,
+  };
 }
 
-async function accessToken() {
-  if (tokenCache && Date.now() < tokenCache.expires) return tokenCache.value;
-  const config = settings();
+async function accessToken(config) {
+  const fingerprint = digest(`${config.GOOGLE_CLIENT_ID}:${config.GOOGLE_REFRESH_TOKEN}`);
+  if (tokenCache?.fingerprint === fingerprint && Date.now() < tokenCache.expires)
+    return tokenCache.value;
   const response = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -26,18 +35,21 @@ async function accessToken() {
   });
   if (!response.ok) throw new Error(`Google token refresh failed (${response.status})`);
   const result = await response.json();
+  if (!result.access_token || !Number.isFinite(result.expires_in))
+    throw new Error('Google did not return a valid access token');
   tokenCache = {
+    fingerprint,
     value: result.access_token,
     expires: Date.now() + Math.max(30, result.expires_in - 120) * 1000,
   };
   return tokenCache.value;
 }
 
-async function calendarRequest(path, options = {}) {
+async function calendarRequest(config, path, options = {}) {
   const response = await fetch(`${API}${path}`, {
     ...options,
     headers: {
-      Authorization: `Bearer ${await accessToken()}`,
+      Authorization: `Bearer ${await accessToken(config)}`,
       'Content-Type': 'application/json',
       ...options.headers,
     },
@@ -45,6 +57,7 @@ async function calendarRequest(path, options = {}) {
   });
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
+    if (response.status === 401) tokenCache = undefined;
     const error = new Error(`Google Calendar returned ${response.status}`);
     error.status = response.status;
     throw error;
@@ -53,8 +66,9 @@ async function calendarRequest(path, options = {}) {
 }
 
 export async function busyIntervals(start, end) {
-  const { GOOGLE_CALENDAR_ID } = settings();
-  const result = await calendarRequest('/freeBusy', {
+  const config = await settings();
+  const { GOOGLE_CALENDAR_ID } = config;
+  const result = await calendarRequest(config, '/freeBusy', {
     method: 'POST',
     body: JSON.stringify({
       timeMin: start,
@@ -78,11 +92,12 @@ export function overlaps(start, end, intervals) {
 }
 
 export async function createTrainingEvent(bookingId, start, end, email) {
-  const { GOOGLE_CALENDAR_ID } = settings();
+  const config = await settings();
+  const { GOOGLE_CALENDAR_ID } = config;
   const eventId = `dl${bookingId.replaceAll('-', '')}`;
   const path = `/calendars/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/events`;
   try {
-    const event = await calendarRequest(`${path}?sendUpdates=all`, {
+    const event = await calendarRequest(config, `${path}?sendUpdates=all`, {
       method: 'POST',
       body: JSON.stringify({
         id: eventId,
@@ -101,7 +116,7 @@ export async function createTrainingEvent(bookingId, start, end, email) {
     // An uncertain network response can mean Google created the event. The
     // deterministic ID lets us safely recognize a retry rather than duplicating it.
     if (error.status === 409) {
-      const event = await calendarRequest(`${path}/${eventId}`);
+      const event = await calendarRequest(config, `${path}/${eventId}`);
       if (event.extendedProperties?.private?.bookingId === bookingId) return event.id;
     }
     throw error;

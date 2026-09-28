@@ -22,7 +22,6 @@ test('retired two-session checkouts can still be fulfilled but cannot be purchas
 test('private endpoints reject unsigned or anonymous requests', async () => {
   const base = 'http://localhost';
   const responses = await Promise.all([
-    checkout(new Request(`${base}/api/checkout`, { method: 'POST' })),
     webhook(new Request(`${base}/api/stripe-webhook`, { method: 'POST' })),
     availability(new Request(`${base}/api/availability`)),
     book(new Request(`${base}/api/book`, { method: 'POST' })),
@@ -30,6 +29,22 @@ test('private endpoints reject unsigned or anonymous requests', async () => {
   ]);
   assert.deepEqual(
     responses.map((response) => response.status),
-    [401, 400, 401, 401, 401],
+    [400, 401, 401, 401],
   );
+});
+
+test('checkout is disabled for both anonymous and signed-in callers', async () => {
+  for (const headers of [{}, { authorization: 'Bearer existing-session' }]) {
+    const response = await checkout(
+      new Request('http://localhost/api/checkout', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ pack: 'one' }),
+      }),
+    );
+    assert.equal(response.status, 403);
+    const result = await response.json();
+    assert.match(result.error, /payments are currently unavailable/);
+    assert.equal(result.url, undefined);
+  }
 });

@@ -1,5 +1,27 @@
 -- Neon Postgres setup. Apply with `npm run db:setup` after inspecting this file.
 -- Browser clients never receive DATABASE_URL; all writes pass through server routes.
+create table if not exists public.calendar_connections (
+  id text primary key check (id = 'darryl'),
+  client_id text not null,
+  google_subject text not null,
+  owner_email text not null,
+  calendar_id text not null,
+  refresh_token_encrypted text not null,
+  connected_at timestamptz not null default now()
+);
+create table if not exists public.calendar_oauth_attempts (
+  state_hash text primary key,
+  browser_hash text not null,
+  verifier_encrypted text not null,
+  nonce text not null,
+  expires_at timestamptz not null
+);
+create index if not exists calendar_oauth_expiry_idx on public.calendar_oauth_attempts(expires_at);
+alter table public.calendar_connections enable row level security;
+alter table public.calendar_oauth_attempts enable row level security;
+revoke all on public.calendar_connections, public.calendar_oauth_attempts from public;
+-- No browser-role policies: only the server database owner can access these tables.
+
 create table if not exists public.session_accounts (
   user_id uuid primary key references neon_auth."user"(id),
   credits integer not null default 0 check (credits >= 0),
@@ -29,6 +51,11 @@ create table if not exists public.session_bookings (
 );
 create index if not exists session_bookings_user_idx on public.session_bookings(user_id, created_at desc);
 create index if not exists training_slots_available_starts_idx on public.training_slots(starts_at) where available;
+
+-- Existing bookings spent one credit. New bookings explicitly spend zero while
+-- online payments are paused. Preserve history for pending-booking rollback.
+alter table public.session_bookings add column if not exists credits_spent integer
+  not null default 1 check (credits_spent in (0, 1));
 
 -- Expand existing installations too; retain the retired two-session pack for purchase history.
 alter table public.session_purchases drop constraint if exists session_purchases_pack_check;
@@ -80,36 +107,35 @@ $$;
 
 create or replace function public.reserve_training_slot(p_slot_id uuid, p_user_id uuid)
 returns uuid language plpgsql security invoker set search_path = '' as $$
-declare v_start timestamptz; v_balance integer; v_booking uuid;
+declare v_start timestamptz; v_booking uuid;
 begin
   if p_user_id is null then raise exception 'Missing customer'; end if;
   select starts_at into v_start from public.training_slots where id = p_slot_id and available for update;
   if v_start is null or v_start < now() + interval '12 hours' then
     raise exception 'This slot is no longer available';
   end if;
-  insert into public.session_accounts(user_id) values (p_user_id) on conflict do nothing;
-  select credits into v_balance from public.session_accounts where user_id = p_user_id for update;
-  if v_balance < 1 then raise exception 'You need a session credit to book'; end if;
   if exists (select 1 from public.session_bookings where slot_id = p_slot_id) then
     raise exception 'This slot has already been booked';
   end if;
-  insert into public.session_bookings(user_id, slot_id) values (p_user_id, p_slot_id) returning id into v_booking;
+  insert into public.session_bookings(user_id, slot_id, credits_spent)
+    values (p_user_id, p_slot_id, 0) returning id into v_booking;
   update public.training_slots set available = false where id = p_slot_id;
-  update public.session_accounts set credits = credits - 1 where user_id = p_user_id;
   return v_booking;
 end;
 $$;
 
 create or replace function public.rollback_calendar_booking(p_booking uuid)
 returns boolean language plpgsql security invoker set search_path = '' as $$
-declare v_user uuid; v_slot uuid;
+declare v_user uuid; v_slot uuid; v_credits integer;
 begin
-  select user_id, slot_id into v_user, v_slot from public.session_bookings
+  select user_id, slot_id, credits_spent into v_user, v_slot, v_credits from public.session_bookings
     where id = p_booking and calendar_status = 'pending' for update;
   if v_user is null then return false; end if;
   delete from public.session_bookings where id = p_booking;
   update public.training_slots set available = true where id = v_slot;
-  update public.session_accounts set credits = credits + 1 where user_id = v_user;
+  if v_credits > 0 then
+    update public.session_accounts set credits = credits + v_credits where user_id = v_user;
+  end if;
   return true;
 end;
 $$;

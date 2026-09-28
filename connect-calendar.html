@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="referrer" content="same-origin" />
+    <meta name="description" content="Connect Darryl’s Google Calendar to DL Coaching bookings." />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Connect your calendar | DL Coaching</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <link rel="stylesheet" href="/src/styles/calendar.css" />
+    <script type="module" src="/src/pages/calendar.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="DL Coaching home">
+          <img src="/assets/favicon.svg" alt="" width="36" height="36" /><span>DL Coaching</span>
+        </a>
+        <a class="btn btn-secondary btn-sm" href="/account.html">My sessions</a>
+      </div>
+    </header>
+    <main id="main" class="container calendar-setup">
+      <div>
+        <p class="eyebrow">Darryl’s calendar setup</p>
+        <h1>Connect once.<br /><em>Keep bookings in sync.</em></h1>
+        <p class="lead">
+          Hi Darryl. Connect your Google Calendar so clients can book around your availability and
+          confirmed sessions appear in your calendar.
+        </p>
+      </div>
+      <section class="card calendar-card" aria-labelledby="connection-title">
+        <div>
+          <span class="badge badge-muted" id="connection-badge">Checking connection…</span>
+          <h2 id="connection-title">Your Google Calendar</h2>
+          <p>Use your own Google account. This connection is reserved for you.</p>
+        </div>
+        <ol class="calendar-steps">
+          <li>Choose <strong>Connect Google Calendar</strong> below.</li>
+          <li>Sign into your Google account and approve the requested calendar access.</li>
+          <li>Return here to see confirmation. Your connection is saved automatically.</li>
+        </ol>
+        <p id="connection-notice" class="notice" role="status" hidden></p>
+        <form id="connection-form" action="/api/calendar-connect" method="post">
+          <button id="connect-button" class="btn btn-primary" type="submit" disabled>
+            Checking connection…
+          </button>
+        </form>
+        <button id="retry-status" class="btn btn-secondary" type="button" hidden>
+          Check again
+        </button>
+        <p class="muted calendar-small">
+          You sign in directly with Google. DL Coaching never sees your password. Your saved
+          connection is encrypted and stays on the server.
+        </p>
+        <noscript
+          ><p>Enable JavaScript, then reload this page to connect your calendar.</p></noscript
+        >
+      </section>
+      <section class="calendar-details" aria-labelledby="access-title">
+        <h2 id="access-title">What you’re allowing</h2>
+        <p>
+          Google will ask for permission to view availability and manage events on calendars you
+          own. DL Coaching uses this to check for clashes and add training bookings. Your Google
+          email is used to verify that it’s you.
+        </p>
+        <p>
+          Booking times use UK local time, including daylight-saving changes. Your published
+          training hours are managed separately.
+        </p>
+        <p>
+          You can remove access in
+          <a
+            href="https://myaccount.google.com/connections"
+            target="_blank"
+            rel="noopener noreferrer"
+            >your Google account</a
+          >
+          at any time. If access expires or is removed, return here to reconnect.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

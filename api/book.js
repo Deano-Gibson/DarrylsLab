@@ -1,4 +1,5 @@
 import { customer, db } from '../server/platform.js';
+import { isWorkingSlot, BOOKING_WINDOW_DAYS } from '../server/services/training-schedule.js';
 import {
   busyIntervals,
   createTrainingEvent,
@@ -15,7 +16,12 @@ export async function POST(request) {
       return Response.json({ error: 'Invalid slot' }, { status: 400 });
     const [slot] = await db()`select id, starts_at, ends_at from public.training_slots
       where id = ${slotId}::uuid and available limit 1`;
-    if (!slot || new Date(slot.starts_at).getTime() < Date.now() + 12 * 3600000) {
+    if (
+      !slot ||
+      !isWorkingSlot(slot.starts_at, slot.ends_at) ||
+      new Date(slot.starts_at).getTime() < Date.now() + 12 * 3600000 ||
+      new Date(slot.starts_at).getTime() >= Date.now() + BOOKING_WINDOW_DAYS * 86400000
+    ) {
       return Response.json({ error: 'That time is no longer available' }, { status: 409 });
     }
     if (overlaps(slot.starts_at, slot.ends_at, await busyIntervals(slot.starts_at, slot.ends_at))) {
@@ -30,7 +36,7 @@ export async function POST(request) {
         await db()`select public.reserve_training_slot(${slot.id}::uuid, ${user.id}::uuid) as id`;
     } catch {
       return Response.json(
-        { error: 'That slot or credit balance changed. Please refresh and try again.' },
+        { error: 'That slot is no longer available. Please refresh and try again.' },
         { status: 409 },
       );
     }
@@ -39,9 +45,9 @@ export async function POST(request) {
     if (overlaps(slot.starts_at, slot.ends_at, await busyIntervals(slot.starts_at, slot.ends_at))) {
       const rollback =
         await db()`select public.rollback_calendar_booking(${bookingId}::uuid) as returned`;
-      if (!rollback[0]?.returned) throw new Error('Reserved credit could not be restored');
+      if (!rollback[0]?.returned) throw new Error('Reserved slot could not be released');
       return Response.json(
-        { error: 'Darryl is now busy at that time. Your credit was returned.' },
+        { error: 'Darryl is now busy at that time. Please choose another session.' },
         { status: 409 },
       );
     }
@@ -54,13 +60,13 @@ export async function POST(request) {
   } catch (error) {
     console.error('Calendar booking failed', bookingId, error);
     // A timeout or failed DB update may follow a successful Google insert.
-    // Keep the reserved credit/slot pending for reconciliation; never refund it
+    // Keep the reserved slot pending for reconciliation; never release it
     // while an appointment might exist on Darryl's calendar.
     return Response.json(
       {
         error: bookingId
           ? 'Booking is pending confirmation. Do not book again; contact Darryl if it stays pending.'
-          : 'Calendar is temporarily unavailable. No credit was spent.',
+          : 'Calendar is temporarily unavailable. Your session was not booked.',
         status: bookingId ? 'pending' : 'failed',
       },
       { status: bookingId ? 202 : 503 },

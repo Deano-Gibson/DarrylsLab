@@ -6,7 +6,12 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "test": "node --test",
+    "test:db": "node scripts/check-booking-database.js",
+    "test:calendar-db": "node scripts/check-calendar-database.js",
+    "test:schedule-db": "node scripts/check-schedule-database.js",
+    "slots:publish": "node scripts/publish-training-slots.js",
     "db:setup": "node scripts/setup-database.js",
+    "calendar:connect": "node scripts/connect-google-calendar.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "vite preview --host 127.0.0.1"

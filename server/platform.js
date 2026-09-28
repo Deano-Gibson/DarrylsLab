@@ -1,5 +1,6 @@
 import { neon } from '@neondatabase/serverless';
-import { createRemoteJWKSet, jwtVerify } from 'jose';
+import { createRemoteJWKSet } from 'jose';
+import { verifyCustomerToken } from './services/customer-token.js';
 import Stripe from 'stripe';
 
 export const packs = Object.freeze({
@@ -28,7 +29,7 @@ export async function customer(request) {
   if (!token || !process.env.NEON_AUTH_JWKS_URL || !process.env.NEON_AUTH_URL) return null;
   try {
     jwks ||= createRemoteJWKSet(new URL(process.env.NEON_AUTH_JWKS_URL));
-    const { payload } = await jwtVerify(token, jwks, { issuer: process.env.NEON_AUTH_URL });
+    const payload = await verifyCustomerToken(token, jwks, process.env.NEON_AUTH_URL);
     if (!payload.sub || !/^[0-9a-f-]{36}$/i.test(payload.sub)) return null;
     const rows = await db()`select id, email, "emailVerified" from neon_auth."user"
       where id = ${payload.sub}::uuid and banned is not true limit 1`;
