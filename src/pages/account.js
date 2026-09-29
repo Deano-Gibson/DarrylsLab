@@ -88,10 +88,7 @@ async function refresh() {
     $('#member').hidden = !signedIn;
     if (!signedIn) return false;
     $('#member-email').textContent = session.user.email;
-    const [accountResponse, slotsResponse] = await Promise.all([
-      privateFetch('/api/account'),
-      privateFetch('/api/availability'),
-    ]);
+    const accountResponse = await privateFetch('/api/account');
     if (!accountResponse.ok) {
       if (accountResponse.status === 401) {
         $('#auth-panel').hidden = false;
@@ -100,8 +97,11 @@ async function refresh() {
       throw new Error('Your account could not be loaded. Please sign in again.');
     }
     const account = await accountResponse.json();
-    const availability = await slotsResponse.json();
-    const slots = slotsResponse.ok ? availability.slots : null;
+    $('#booking-panel').hidden = !account.approved;
+    $('#access-notice').hidden = account.approved;
+    const slotsResponse = account.approved ? await privateFetch('/api/availability') : null;
+    const availability = slotsResponse ? await slotsResponse.json() : {};
+    const slots = slotsResponse?.ok ? availability.slots : null;
     availableSlots = slots || [];
     $('#date-picker').hidden = !slots?.length;
     $('#member-email').textContent = account.email;
@@ -129,8 +129,7 @@ async function refresh() {
     }
     const booked = $('#bookings');
     booked.replaceChildren();
-    if (!account.bookings.length)
-      booked.append(el('p', '', 'No bookings yet. Choose a time above when you are ready.'));
+    if (!account.bookings.length) booked.append(el('p', '', 'No bookings yet.'));
     for (const item of account.bookings) {
       const confirmed = item.calendar_status === 'confirmed';
       const row = el('div', 'booking');
@@ -188,65 +187,27 @@ $('#auth-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!auth) return message('Account sign-in is not configured yet.', 'error');
   const button = event.currentTarget.querySelector('button');
-  const creating = $('#auth-mode').value === 'create';
   const email = $('#email').value.trim();
   const password = $('#password').value;
-  const name = $('#name').value.trim();
-  if (creating && !name) {
-    $('#auth-error').textContent = 'Enter your name.';
-    $('#name').focus();
-    return;
-  }
   button.disabled = true;
-  $('#auth-mode').disabled = true;
   button.textContent = 'Please wait…';
   $('#auth-error').textContent = '';
   message('');
   try {
-    const result = creating
-      ? await auth.signUp.email(
-          { email, password, name, callbackURL: `${location.origin}/account.html` },
-          { timeout: 15000 },
-        )
-      : await auth.signIn.email({ email, password }, { timeout: 15000 });
+    const result = await auth.signIn.email({ email, password }, { timeout: 15000 });
     if (result.error) throw result.error;
     $('#password').value = '';
-    message(
-      creating
-        ? 'Account created. You’re signed in and ready to view available times.'
-        : 'Signed in successfully.',
-      'success',
-    );
+    message('Signed in successfully.', 'success');
     const signedIn = await refresh();
-    if (signedIn === false) {
-      $('#auth-mode').value = 'sign-in';
-      updateAuthMode();
-      message(
-        creating
-          ? 'Account created. Sign in to continue; if email verification is requested, check your inbox.'
-          : 'Your session could not be saved. Allow cookies for this site, then sign in again.',
-        'info',
-      );
-    }
+    if (signedIn === false)
+      message('Your session could not be saved. Allow cookies, then sign in again.', 'error');
   } catch (error) {
-    $('#auth-error').textContent = authErrorMessage(error, creating);
+    $('#auth-error').textContent = authErrorMessage(error, false);
   } finally {
     button.disabled = false;
-    $('#auth-mode').disabled = false;
-    button.textContent = $('#auth-mode').value === 'create' ? 'Create account' : 'Sign in';
+    button.textContent = 'Sign in';
   }
 });
-
-function updateAuthMode() {
-  const creating = $('#auth-mode').value === 'create';
-  $('#name-field').hidden = !creating;
-  $('#name').required = creating;
-  $('#password').autocomplete = creating ? 'new-password' : 'current-password';
-  $('#auth-form button').textContent = creating ? 'Create account' : 'Sign in';
-  $('#auth-error').textContent = '';
-  $('#forgot-password').hidden = creating;
-}
-$('#auth-mode').addEventListener('change', updateAuthMode);
 
 $('#forgot-password').addEventListener('click', async () => {
   const email = $('#email').value.trim();
@@ -304,8 +265,6 @@ $('#sign-out').addEventListener('click', async () => {
     availableSlots = [];
     $('#date-picker').hidden = true;
     $('#bookings').replaceChildren();
-    $('#auth-mode').value = 'sign-in';
-    updateAuthMode();
     message('You have signed out.');
     await refresh();
   } catch {
@@ -317,5 +276,4 @@ $('#sign-out').addEventListener('click', async () => {
 
 if (new URLSearchParams(location.search).get('reset') === 'success')
   message('Password updated. Sign in with your new password.', 'success');
-updateAuthMode();
 refresh();

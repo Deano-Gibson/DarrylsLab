@@ -1,4 +1,5 @@
 import { customer, db } from '../server/platform.js';
+import { hasClientAccess } from '../server/services/client-access.js';
 
 export async function GET(request) {
   const user = await customer(request);
@@ -9,7 +10,7 @@ export async function GET(request) {
         join public.training_slots s on s.id = b.slot_id
         where b.user_id = ${user.id} order by b.created_at desc limit 30`;
     return Response.json(
-      { email: user.email, bookings },
+      { email: user.email, bookings, approved: await hasClientAccess(user) },
       { headers: { 'Cache-Control': 'no-store' } },
     );
   } catch (error) {

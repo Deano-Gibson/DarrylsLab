@@ -1,4 +1,5 @@
 import { customer, db } from '../server/platform.js';
+import { hasClientAccess, accessRequired } from '../server/services/client-access.js';
 import { isWorkingSlot, BOOKING_WINDOW_DAYS } from '../server/services/training-schedule.js';
 import {
   busyIntervals,
@@ -11,6 +12,7 @@ export async function POST(request) {
   if (!user) return Response.json({ error: 'Sign in first' }, { status: 401 });
   let bookingId;
   try {
+    if (!(await hasClientAccess(user))) return accessRequired();
     const { slotId } = await request.json();
     if (typeof slotId !== 'string' || !/^[0-9a-f-]{36}$/i.test(slotId))
       return Response.json({ error: 'Invalid slot' }, { status: 400 });

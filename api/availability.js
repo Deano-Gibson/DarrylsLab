@@ -1,10 +1,13 @@
 import { customer, db } from '../server/platform.js';
+import { hasClientAccess, accessRequired } from '../server/services/client-access.js';
 import { busyIntervals, overlaps } from '../server/services/google-calendar.js';
 import { isWorkingSlot, publishTrainingSlots } from '../server/services/training-schedule.js';
 
 export async function GET(request) {
-  if (!(await customer(request))) return Response.json({ error: 'Sign in first' }, { status: 401 });
+  const user = await customer(request);
+  if (!user) return Response.json({ error: 'Sign in first' }, { status: 401 });
   try {
+    if (!(await hasClientAccess(user))) return accessRequired();
     await publishTrainingSlots(db());
     const earliest = new Date(Date.now() + 12 * 3600000).toISOString();
     const latest = new Date(Date.now() + 60 * 86400000).toISOString();
